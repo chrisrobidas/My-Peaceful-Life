@@ -16,12 +16,10 @@ public class GameManager : MonoBehaviour
         if (IsGamePaused)
         {
             InputManager.Instance.PlayerInput.SwitchCurrentActionMap("UI");
-            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             InputManager.Instance.PlayerInput.SwitchCurrentActionMap("Player");
-            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -43,7 +41,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         InitializeActiveScene();
     }

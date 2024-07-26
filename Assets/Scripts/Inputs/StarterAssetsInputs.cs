@@ -1,7 +1,5 @@
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
+using static UnityEngine.InputSystem.InputAction;
 
 namespace StarterAssets
 {
@@ -12,7 +10,6 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
-		public bool pause;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -21,60 +18,77 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
-#if ENABLE_INPUT_SYSTEM
-		public void OnMove(InputValue value)
+		public void OnMoveInput(CallbackContext context)
 		{
-			MoveInput(value.Get<Vector2>());
+            SetMoveInput(context.ReadValue<Vector2>());
 		}
 
-		public void OnLook(InputValue value)
+		public void OnLookInput(CallbackContext context)
 		{
 			if(cursorInputForLook)
 			{
-				LookInput(value.Get<Vector2>());
+				SetLookInput(context.ReadValue<Vector2>());
 			}
 		}
 
-		public void OnJump(InputValue value)
+		public void OnJumpInput(CallbackContext context)
 		{
-			JumpInput(value.isPressed);
-		}
+            if (context.started)
+            {
+                SetJumpInput(true);
+            }
+            else if (context.canceled)
+            {
+                SetJumpInput(false);
+            }
+        }
 
-		public void OnSprint(InputValue value)
+		public void OnSprintInput(CallbackContext context)
 		{
-			SprintInput(value.isPressed);
-		}
-#endif
+            if (context.started)
+            {
+                SetSprintInput(true);
+            }
+            else if (context.canceled)
+            {
+                SetSprintInput(false);
+            }
+        }
 
+        public void OnPauseInput(CallbackContext context)
+        {
+            if (context.started)
+            {
+				UIManager.Instance.ShowPauseMenuPanel();
+            }
+        }
 
-		public void MoveInput(Vector2 newMoveDirection)
+        public void OnResumeInput(CallbackContext context)
+        {
+            if (context.started)
+            {
+                UIManager.Instance.HidePauseMenuPanel();
+            }
+        }
+
+        public void SetMoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
-		} 
+		}
 
-		public void LookInput(Vector2 newLookDirection)
+		public void SetLookInput(Vector2 newLookDirection)
 		{
 			look = newLookDirection;
 		}
 
-		public void JumpInput(bool newJumpState)
+		public void SetJumpInput(bool newJumpState)
 		{
 			jump = newJumpState;
 		}
 
-		public void SprintInput(bool newSprintState)
+		public void SetSprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
-		}
-
-		private void OnApplicationFocus(bool hasFocus)
-		{
-			SetCursorState(cursorLocked);
-		}
-
-		private void SetCursorState(bool newState)
-		{
-			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 	}
 	
