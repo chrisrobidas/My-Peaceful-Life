@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         #endif
     }
 
-    private void Awake()
+    private void Start()
     {
         if (Instance != null && Instance != this)
         {
