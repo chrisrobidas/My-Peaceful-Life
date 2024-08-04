@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Text;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -7,7 +8,8 @@ using UnityEngine;
 
 public class SteamPlayFabLogin : MonoBehaviour
 {
-    private const int MAX_LOGIN_RETRIES = 10;
+    private const int MAX_LOGIN_RETRIES = 5;
+    private const float INITIAL_RETRY_DELAY = 1f;
 
     HAuthTicket hAuthTicket;
 
@@ -23,8 +25,14 @@ public class SteamPlayFabLogin : MonoBehaviour
         }
     }
 
-    private void TryLoginToPlayFabWithSteam(int retryCount)
+    private void TryLoginToPlayFabWithSteam(int retryCount, float delay = 0)
     {
+        if (delay > 0)
+        {
+            StartCoroutine(RetryAfterDelay(retryCount, delay));
+            return;
+        }
+
         byte[] ticketBlob = new byte[1024];
         uint ticketSize = 0;
 
@@ -36,6 +44,12 @@ public class SteamPlayFabLogin : MonoBehaviour
             CreateAccount = true,
             SteamTicket = steamTicket
         }, OnLoginWithSteamToPlayFabComplete, (error) => OnLoginWithSteamToPlayFabFailed(error, retryCount));
+    }
+
+    private IEnumerator RetryAfterDelay(int retryCount, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        TryLoginToPlayFabWithSteam(retryCount);
     }
 
     private string GetSteamAuthTicket(ref byte[] ticketBlob, ref uint ticketSize)
@@ -88,8 +102,9 @@ public class SteamPlayFabLogin : MonoBehaviour
 
         if (retryCount < MAX_LOGIN_RETRIES)
         {
-            Debug.Log($"Retrying login to PlayFab using Steam... Attempt {retryCount + 1}");
-            TryLoginToPlayFabWithSteam(retryCount + 1);
+            float delay = INITIAL_RETRY_DELAY * Mathf.Pow(2, retryCount);
+            Debug.Log($"Retrying login to PlayFab using Steam in {delay} seconds... Attempt {retryCount + 1}");
+            TryLoginToPlayFabWithSteam(retryCount + 1, delay);
         }
         else
         {
