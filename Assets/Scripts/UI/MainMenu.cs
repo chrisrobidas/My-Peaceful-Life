@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private GameObject _mainMenuPanel;
+    [SerializeField] private GameObject _loadingPanel;
+
     public void Play()
     {
+        _mainMenuPanel.SetActive(false);
+        _loadingPanel.SetActive(true);
         GameManager.Instance.StartGame();
     }
 
