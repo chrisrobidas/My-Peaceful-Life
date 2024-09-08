@@ -157,8 +157,6 @@ namespace StarterAssets
                 _moveVelocity = projectedVector;
             }
 
-            Debug.Log("_moveVelocity: " + _moveVelocity);
-
             KCC.Move(_moveVelocity, jumpImpulse);
         }
 

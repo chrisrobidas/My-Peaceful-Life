@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TMP_Text))]
 public class LoadingText : MonoBehaviour
 {
+    [SerializeField] string _baseText = "Loading";
     [SerializeField] float _secondsBetweenDots = 0.5f;
 
     private int _dotsCount;
@@ -25,7 +26,7 @@ public class LoadingText : MonoBehaviour
                 _dotsCount = 0;
             }
 
-            _loadingText.text = "Loading" + new string('.', _dotsCount);
+            _loadingText.text = _baseText + new string('.', _dotsCount);
 
             _dotsCount++;
             yield return new WaitForSeconds(_secondsBetweenDots);

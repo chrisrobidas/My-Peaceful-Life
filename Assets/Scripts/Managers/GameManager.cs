@@ -33,6 +33,12 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    public async void StopGame()
+    {
+        await _networkRunner.Shutdown();
+        _networkRunner = null;
+    }
+
     public void SetIsGamePaused(bool isGamePaused)
     {
         if (isGamePaused == IsGamePaused) return;
@@ -87,12 +93,10 @@ public class GameManager : MonoBehaviour
         {
             case Constants.MAIN_MENU_SCENE_INDEX:
                 SetIsGamePaused(true);
-                Debug.Log("GamePaused: true");
                 break;
             case Constants.GAME_SCENE_INDEX:
                 if (_networkRunner == null) StartGame();
                 SetIsGamePaused(false);
-                Debug.Log("GamePaused: false");
                 break;
         }
     }
