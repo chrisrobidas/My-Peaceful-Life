@@ -1,3 +1,5 @@
+using Fusion;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +7,31 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [Header("Start Game Setup")]
+    public NetworkRunner RunnerPrefab;
+
     public bool IsGamePaused { get; private set; }
+
+    public Action OnChangeIsGamePaused;
+
+    private NetworkRunner _networkRunner;
+
+    public async void StartGame()
+    {
+        _networkRunner = Instantiate(RunnerPrefab);
+
+        SceneRef gameScene = SceneRef.FromIndex(Constants.GAME_SCENE_INDEX);
+        NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
+        sceneInfo.AddSceneRef(gameScene);
+
+        await _networkRunner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.Shared,
+            PlayerCount = 10,
+            SessionName = "MyPeacefulLifeRoom",
+            Scene = gameScene,
+        });
+    }
 
     public void SetIsGamePaused(bool isGamePaused)
     {
@@ -13,13 +39,9 @@ public class GameManager : MonoBehaviour
 
         IsGamePaused = isGamePaused;
 
-        if (IsGamePaused)
+        if (OnChangeIsGamePaused != null)
         {
-            InputManager.Instance.PlayerInput.SwitchCurrentActionMap("UI");
-        }
-        else
-        {
-            InputManager.Instance.PlayerInput.SwitchCurrentActionMap("Player");
+            OnChangeIsGamePaused.Invoke();
         }
     }
 
@@ -32,7 +54,7 @@ public class GameManager : MonoBehaviour
         #endif
     }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -41,19 +63,36 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         InitializeActiveScene();
     }
 
     private void InitializeActiveScene()
     {
-        switch (SceneManager.GetActiveScene().name)
+        switch (SceneManager.GetActiveScene().buildIndex)
         {
-            case Constants.MAIN_MENU_SCENE_NAME:
+            case Constants.MAIN_MENU_SCENE_INDEX:
                 SetIsGamePaused(true);
+                Debug.Log("GamePaused: true");
                 break;
-            case Constants.GAME_SCENE_NAME:
+            case Constants.GAME_SCENE_INDEX:
+                if (_networkRunner == null) StartGame();
                 SetIsGamePaused(false);
+                Debug.Log("GamePaused: false");
                 break;
         }
     }

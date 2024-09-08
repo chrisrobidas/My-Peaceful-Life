@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene(Constants.GAME_SCENE_NAME);
+        GameManager.Instance.StartGame();
     }
 
     public void QuitGame()

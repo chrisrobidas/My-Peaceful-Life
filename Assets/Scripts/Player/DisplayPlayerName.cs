@@ -9,7 +9,7 @@ public class DisplayPlayerName : MonoBehaviour
 
     private bool _playerNameFetched;
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!_playerNameFetched && PlayFabClientAPI.IsClientLoggedIn())
         {

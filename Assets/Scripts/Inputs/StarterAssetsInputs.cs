@@ -1,45 +1,60 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
-	{
-		[Header("Character Input Values")]
-		public Vector2 move;
-		public Vector2 look;
-		public bool jump;
-		public bool sprint;
+    public struct GameplayInput
+    {
+        public Vector2 LookRotation;
+        public Vector2 MoveDirection;
+        public bool IsJumping;
+        public bool IsSprinting;
+    }
 
-		[Header("Movement Settings")]
-		public bool analogMovement;
+    [RequireComponent(typeof(PlayerInput))]
+    public class StarterAssetsInputs : MonoBehaviour
+    {
+        public GameplayInput CurrentInput => _input;
+        private GameplayInput _input;
 
-		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
-		public bool cursorInputForLook = true;
+        private PlayerInput _playerInput;
 
-		public void OnMoveInput(CallbackContext context)
+        public bool IsCurrentDeviceMouse
+        {
+            get
+            {
+                return _playerInput.currentControlScheme == "KeyboardMouse";
+            }
+        }
+
+        public bool IsCurrentDeviceGamepad
+        {
+            get
+            {
+                return _playerInput.currentControlScheme == "Gamepad";
+            }
+        }
+
+        public void OnMoveInput(CallbackContext context)
 		{
-            SetMoveInput(context.ReadValue<Vector2>());
+            _input.MoveDirection = context.ReadValue<Vector2>();
 		}
 
 		public void OnLookInput(CallbackContext context)
 		{
-			if(cursorInputForLook)
-			{
-				SetLookInput(context.ReadValue<Vector2>());
-			}
-		}
+            _input.LookRotation = context.ReadValue<Vector2>();
+        }
 
 		public void OnJumpInput(CallbackContext context)
 		{
             if (context.started)
             {
-                SetJumpInput(true);
+                _input.IsJumping = true;
             }
             else if (context.canceled)
             {
-                SetJumpInput(false);
+                _input.IsJumping = false;
             }
         }
 
@@ -47,11 +62,11 @@ namespace StarterAssets
 		{
             if (context.started)
             {
-                SetSprintInput(true);
+                _input.IsSprinting = true;
             }
             else if (context.canceled)
             {
-                SetSprintInput(false);
+                _input.IsSprinting = false;
             }
         }
 
@@ -71,25 +86,54 @@ namespace StarterAssets
             }
         }
 
-        public void SetMoveInput(Vector2 newMoveDirection)
-		{
-			move = newMoveDirection;
-		}
+        private void Start()
+        {
+            _playerInput = GetComponent<PlayerInput>();
+        }
 
-		public void SetLookInput(Vector2 newLookDirection)
-		{
-			look = newLookDirection;
-		}
+        private void OnEnable()
+        {
+            GameManager.Instance.OnChangeIsGamePaused += SetCurrentActionMap;
+        }
 
-		public void SetJumpInput(bool newJumpState)
-		{
-			jump = newJumpState;
-		}
+        private void OnDisable()
+        {
+            GameManager.Instance.OnChangeIsGamePaused -= SetCurrentActionMap;
+        }
 
-		public void SetSprintInput(bool newSprintState)
-		{
-			sprint = newSprintState;
-		}
-	}
-	
+        private void Update()
+        {
+            SetCursorLockMode();
+        }
+
+        private void SetCursorLockMode()
+        {
+            if (IsCurrentDeviceGamepad)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                return;
+            }
+
+            if (GameManager.Instance.IsGamePaused)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        private void SetCurrentActionMap()
+        {
+            if (GameManager.Instance.IsGamePaused)
+            {
+                _playerInput.SwitchCurrentActionMap(Constants.UI_ACTION_MAP_NAME);
+            }
+            else
+            {
+                _playerInput.SwitchCurrentActionMap(Constants.PLAYER_ACTION_MAP_NAME);
+            }
+        }
+    }
 }

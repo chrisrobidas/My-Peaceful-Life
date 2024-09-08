@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3894913853765155785}
   - component: {fileID: 753937221724501525}
   - component: {fileID: 4692451158671516078}
-  - component: {fileID: 2890166698140123524}
+  - component: {fileID: 2427799921423050403}
   m_Layer: 0
   m_Name: Well
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2890166698140123524
-BoxCollider:
+--- !u!136 &2427799921423050403
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,6 +102,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8357089, y: 2.257377, z: 1.9544775}
-  m_Center: {x: -0.04262802, y: 1.1225854, z: -0.0010400712}
+  serializedVersion: 2
+  m_Radius: 0.9772388
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: -0.04262802, y: 0.84, z: -0.0010400712}

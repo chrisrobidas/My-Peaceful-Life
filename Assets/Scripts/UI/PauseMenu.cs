@@ -10,12 +10,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(Constants.GAME_SCENE_NAME);
+        SceneManager.LoadScene(Constants.GAME_SCENE_INDEX);
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_NAME);
+        SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_INDEX);
     }
 
     public void QuitGame()

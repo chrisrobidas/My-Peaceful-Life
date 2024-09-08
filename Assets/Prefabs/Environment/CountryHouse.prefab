@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 7230985091016567174}
   - component: {fileID: 2124090646086322046}
   - component: {fileID: 7399621542779536863}
+  - component: {fileID: 427879394686878157}
   m_Layer: 0
   m_Name: flap_front_R_01 1
   m_TagString: Untagged
@@ -232,6 +233,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &427879394686878157
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2312710722944813089}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5720355381895518480, guid: 40c157d1f354202449acc218645bc884, type: 3}
 --- !u!1 &3211031838598874629
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,6 +581,7 @@ GameObject:
   - component: {fileID: 7011741078639308380}
   - component: {fileID: 8204099451015650610}
   - component: {fileID: 6031292708214852967}
+  - component: {fileID: 6483066450872488375}
   m_Layer: 0
   m_Name: flap_back_L_01 1
   m_TagString: Untagged
@@ -630,6 +654,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6483066450872488375
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5294048032152443998}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4401354152206233073, guid: 40c157d1f354202449acc218645bc884, type: 3}
 --- !u!1 &5511242704921598935
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +782,7 @@ GameObject:
   - component: {fileID: 3023039749996220528}
   - component: {fileID: 3173584530823166632}
   - component: {fileID: 3914563660558184130}
+  - component: {fileID: 3978956419123733745}
   m_Layer: 0
   m_Name: flap_front_L_01 1
   m_TagString: Untagged
@@ -808,6 +855,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3978956419123733745
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476108373757500612}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6814874320860812859, guid: 40c157d1f354202449acc218645bc884, type: 3}
 --- !u!1 &7571937987102021495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,6 +1089,7 @@ GameObject:
   - component: {fileID: 6039660703162965444}
   - component: {fileID: 2970735572305798298}
   - component: {fileID: 3897773125251928890}
+  - component: {fileID: 3464091216768853045}
   m_Layer: 0
   m_Name: flap_back_R_01 1
   m_TagString: Untagged
@@ -1092,6 +1162,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3464091216768853045
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8774412146649959723}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2884590046569895421, guid: 40c157d1f354202449acc218645bc884, type: 3}
 --- !u!1 &8868096807997707452
 GameObject:
   m_ObjectHideFlags: 0
