@@ -11,7 +11,7 @@ public class PlayerSpawner : NetworkBehaviour
     public override void Spawned()
     {
         int spawnIndex = Random.Range(0, _spawnPoints.Length);
-        var player = Runner.Spawn(_playerPrefab, _spawnPoints[spawnIndex].position, Quaternion.identity, Runner.LocalPlayer);
+        NetworkObject player = Runner.Spawn(_playerPrefab, _spawnPoints[spawnIndex].position, Quaternion.identity, Runner.LocalPlayer);
 
         // Enables inputs for the local player
         player.gameObject.GetComponent<StarterAssetsInputs>().enabled = true;

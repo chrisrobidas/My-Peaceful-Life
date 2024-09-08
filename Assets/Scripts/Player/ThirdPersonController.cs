@@ -125,10 +125,11 @@ namespace StarterAssets
 
             float speed = input.IsSprinting ? SprintSpeed : WalkSpeed;
 
-            var lookRotation = new Quaternion(0.0f, _mainCamera.transform.rotation.y, 0.0f, _mainCamera.transform.rotation.w);
+            Quaternion lookRotation = new Quaternion(0.0f, _mainCamera.transform.rotation.y, 0.0f, _mainCamera.transform.rotation.w);
             // Calculate correct move direction from input (rotated based on camera look)
-            var moveDirection = lookRotation * new Vector3(input.MoveDirection.x, 0f, input.MoveDirection.y);
-            var desiredMoveVelocity = moveDirection * speed;
+            Vector3 moveDirection = lookRotation * new Vector3(input.MoveDirection.x, 0f, input.MoveDirection.y);
+            moveDirection.Normalize();
+            Vector3 desiredMoveVelocity = moveDirection * speed;
 
             float acceleration;
             if (desiredMoveVelocity == Vector3.zero)
@@ -139,9 +140,9 @@ namespace StarterAssets
             else
             {
                 // Rotate the character towards move direction over time
-                var currentRotation = KCC.TransformRotation;
-                var targetRotation = Quaternion.LookRotation(moveDirection);
-                var nextRotation = Quaternion.Lerp(currentRotation, targetRotation, RotationSpeed * Runner.DeltaTime);
+                Quaternion currentRotation = KCC.TransformRotation;
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                Quaternion nextRotation = Quaternion.Lerp(currentRotation, targetRotation, RotationSpeed * Runner.DeltaTime);
 
                 KCC.SetLookRotation(nextRotation.eulerAngles);
 
@@ -151,10 +152,12 @@ namespace StarterAssets
             _moveVelocity = Vector3.Lerp(_moveVelocity, desiredMoveVelocity, acceleration * Runner.DeltaTime);
 
             // Ensure consistent movement speed even on steep slope
-            if (KCC.ProjectOnGround(_moveVelocity, out var projectedVector))
+            if (KCC.ProjectOnGround(_moveVelocity, out Vector3 projectedVector))
             {
                 _moveVelocity = projectedVector;
             }
+
+            Debug.Log("_moveVelocity: " + _moveVelocity);
 
             KCC.Move(_moveVelocity, jumpImpulse);
         }
@@ -203,7 +206,7 @@ namespace StarterAssets
 
             if (FootstepAudioClips.Length > 0)
             {
-                var index = Random.Range(0, FootstepAudioClips.Length);
+                int index = Random.Range(0, FootstepAudioClips.Length);
                 AudioSource.PlayClipAtPoint(FootstepAudioClips[index], KCC.Position, FootstepAudioVolume);
             }
         }
