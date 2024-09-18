@@ -1,7 +1,8 @@
 ﻿using Cinemachine;
 using Fusion;
-using Fusion.Addons.SimpleKCC;
+using Fusion.Addons.KCC;
 using UnityEngine;
+using UnityEngine.Windows;
 
 /* Note: Animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -11,7 +12,7 @@ namespace StarterAssets
     public class ThirdPersonController : NetworkBehaviour
     {
         [Header("References")]
-        public SimpleKCC KCC;
+        public KCC KCC;
         public StarterAssetsInputs StarterAssetsInputs;
         public Animator Animator;
         public Transform CameraPivot;
@@ -21,18 +22,8 @@ namespace StarterAssets
         public float BottomClamp = -30.0f;
 
         [Header("Movement Setup")]
-        public float WalkSpeed = 2f;
-        public float SprintSpeed = 5f;
-        public float JumpImpulse = 10f;
-        public float UpGravity = 25f;
-        public float DownGravity = 40f;
+        public float JumpImpulse = 6f;
         public float RotationSpeed = 8f;
-
-        [Header("Movement Accelerations")]
-        public float GroundAcceleration = 55f;
-        public float GroundDeceleration = 25f;
-        public float AirAcceleration = 25f;
-        public float AirDeceleration = 1.3f;
 
         [Header("Sounds")]
         public AudioClip[] FootstepAudioClips;
@@ -42,8 +33,6 @@ namespace StarterAssets
 
         [Networked]
         private NetworkBool _isJumping { get; set; }
-
-        private Vector3 _moveVelocity;
 
         // Cinemachine
         private Camera _mainCamera;
@@ -59,24 +48,26 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        // Jump
+        private bool _canJump;
+
         public override void FixedUpdateNetwork()
         {
-            ProcessInput(StarterAssetsInputs.CurrentInput);
-
-            if (KCC.IsGrounded)
+            if (KCC.Data.IsGrounded)
             {
-                // Stop jumping
                 _isJumping = false;
             }
+
+            ProcessInput(StarterAssetsInputs.CurrentInput);
         }
 
         public override void Render()
         {
-            Animator.SetFloat(_animIDSpeed, KCC.RealSpeed, 0.15f, Time.deltaTime);
+            Animator.SetFloat(_animIDSpeed, KCC.Data.RealSpeed, 0.15f, Time.deltaTime);
             Animator.SetFloat(_animIDMotionSpeed, 1f);
             Animator.SetBool(_animIDJump, _isJumping);
-            Animator.SetBool(_animIDGrounded, KCC.IsGrounded);
-            Animator.SetBool(_animIDFreeFall, KCC.RealVelocity.y < -10f);
+            Animator.SetBool(_animIDGrounded, KCC.Data.IsGrounded);
+            Animator.SetBool(_animIDFreeFall, KCC.Data.RealVelocity.y < -5f);
         }
 
         private void Awake()
@@ -110,54 +101,41 @@ namespace StarterAssets
 
         private void ProcessInput(GameplayInput input)
         {
-            float jumpImpulse = 0f;
+            Debug.Log("KCC.Data.IsGrounded: " + KCC.Data.IsGrounded);
 
-            // Comparing current input buttons to previous input buttons - this prevents glitches when input is lost
-            if (KCC.IsGrounded && input.IsJumping)
+            if (KCC.Data.IsGrounded)
             {
-                // Set world space jump vector
-                jumpImpulse = JumpImpulse;
-                _isJumping = true;
+                if (input.IsJumping)
+                {
+                    if (_canJump)
+                    {
+                        KCC.Jump(Vector3.up * JumpImpulse); // TODO: PREVENT HOLD JUMP BUTTON
+                        _isJumping = true;
+                        _canJump = false;
+                    }
+                }
+                else
+                {
+                    _canJump = true;
+                }
             }
 
-            // It feels better when the player falls quicker
-            KCC.SetGravity(KCC.RealVelocity.y >= 0f ? UpGravity : DownGravity);
-
-            float speed = input.IsSprinting ? SprintSpeed : WalkSpeed;
-
-            Quaternion lookRotation = new Quaternion(0.0f, _mainCamera.transform.rotation.y, 0.0f, _mainCamera.transform.rotation.w);
             // Calculate correct move direction from input (rotated based on camera look)
+            Quaternion lookRotation = new Quaternion(0.0f, _mainCamera.transform.rotation.y, 0.0f, _mainCamera.transform.rotation.w);
             Vector3 moveDirection = lookRotation * new Vector3(input.MoveDirection.x, 0f, input.MoveDirection.y);
-            moveDirection.Normalize();
-            Vector3 desiredMoveVelocity = moveDirection * speed;
+            KCC.SetInputDirection(moveDirection);
 
-            float acceleration;
-            if (desiredMoveVelocity == Vector3.zero)
+            // Applies the sprint modifier
+            KCC.SetIsSprinting(input.IsSprinting);
+
+            // Rotate the character towards move direction over time
+            if (moveDirection != Vector3.zero)
             {
-                // No desired move velocity - we are stopping
-                acceleration = KCC.IsGrounded ? GroundDeceleration : AirDeceleration;
-            }
-            else
-            {
-                // Rotate the character towards move direction over time
-                Quaternion currentRotation = KCC.TransformRotation;
+                Quaternion currentRotation = KCC.Data.TransformRotation;
                 Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
                 Quaternion nextRotation = Quaternion.Lerp(currentRotation, targetRotation, RotationSpeed * Runner.DeltaTime);
-
                 KCC.SetLookRotation(nextRotation.eulerAngles);
-
-                acceleration = KCC.IsGrounded ? GroundAcceleration : AirAcceleration;
             }
-
-            _moveVelocity = Vector3.Lerp(_moveVelocity, desiredMoveVelocity, acceleration * Runner.DeltaTime);
-
-            // Ensure consistent movement speed even on steep slope
-            if (KCC.ProjectOnGround(_moveVelocity, out Vector3 projectedVector))
-            {
-                _moveVelocity = projectedVector;
-            }
-
-            KCC.Move(_moveVelocity, jumpImpulse);
         }
 
         private void CameraRotation(GameplayInput input)
@@ -199,20 +177,21 @@ namespace StarterAssets
         // Animation event
         private void OnFootstep(AnimationEvent animationEvent)
         {
+            // TODO: CHECK IF FOOTSTEP SOUND IS FIXED?? PROBABLY SINCE I FIXED JUMP ANIMATION?
             if (animationEvent.animatorClipInfo.weight < 0.5f)
                 return;
 
             if (FootstepAudioClips.Length > 0)
             {
                 int index = Random.Range(0, FootstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], KCC.Position, FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], KCC.Transform.position, FootstepAudioVolume);
             }
         }
 
         // Animation event
         private void OnLand(AnimationEvent animationEvent)
         {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, KCC.Position, FootstepAudioVolume);
+            AudioSource.PlayClipAtPoint(LandingAudioClip, KCC.Transform.position, FootstepAudioVolume);
         }
     }
 }
