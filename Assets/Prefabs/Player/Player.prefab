@@ -1184,11 +1184,7 @@ MonoBehaviour:
   CameraPivot: {fileID: 778128916860715101}
   TopClamp: 70
   BottomClamp: -30
-  WalkSpeed: 2
-  SprintSpeed: 5
   JumpImpulse: 6
-  UpGravity: -25
-  DownGravity: -40
   RotationSpeed: 8
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -1415,6 +1411,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 2330285730715919094}
+  - {fileID: 747923834008969711}
   - {fileID: 7239307590498069409}
 --- !u!54 &7203131238292176921
 Rigidbody:

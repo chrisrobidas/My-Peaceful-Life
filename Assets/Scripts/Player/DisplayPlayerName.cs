@@ -2,19 +2,34 @@ using PlayFab.ClientModels;
 using PlayFab;
 using TMPro;
 using UnityEngine;
+using Fusion;
 
-public class DisplayPlayerName : MonoBehaviour
+public class DisplayPlayerName : NetworkBehaviour
 {
     [SerializeField] private TMP_Text _playerNameText;
 
     private bool _playerNameFetched;
 
+    [Networked]
+    private string _playerName { get; set; }
+
+    private void Awake()
+    {
+        _playerNameText.text = null;
+    }
+
     private void LateUpdate()
     {
-        if (!_playerNameFetched && PlayFabClientAPI.IsClientLoggedIn())
+        // We don't want players to see their own name
+        if (HasStateAuthority && !_playerNameFetched && PlayFabClientAPI.IsClientLoggedIn())
         {
             _playerNameFetched = true;
             PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), OnGetAccountInfoComplete, OnGetAccountInfoFailed);
+        }
+
+        if (!HasStateAuthority && _playerNameText.text != _playerName)
+        {
+            _playerNameText.text = _playerName;
         }
 
         _playerNameText.transform.LookAt(_playerNameText.transform.position + Camera.main.transform.forward, Camera.main.transform.up);
@@ -22,9 +37,8 @@ public class DisplayPlayerName : MonoBehaviour
 
     private void OnGetAccountInfoComplete(GetAccountInfoResult result)
     {
-        string playFabDisplayName = result.AccountInfo.TitleInfo.DisplayName;
-        _playerNameText.text = playFabDisplayName;
-        Debug.Log("Successfully fetched PlayFab display name: " + playFabDisplayName);
+        _playerName = result.AccountInfo.TitleInfo.DisplayName;
+        Debug.Log("Successfully fetched PlayFab display name: " + _playerName);
     }
 
     private void OnGetAccountInfoFailed(PlayFabError error)

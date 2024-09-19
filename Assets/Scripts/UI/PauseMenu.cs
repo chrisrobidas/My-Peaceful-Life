@@ -18,19 +18,13 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        StartCoroutine(QuitGameCoroutine());
+        GameManager.Instance.QuitGame();
     }
 
     private IEnumerator MainMenuCoroutine()
     {
         yield return LeaveGame();
         SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_INDEX);
-    }
-
-    private IEnumerator QuitGameCoroutine()
-    {
-        yield return LeaveGame();
-        GameManager.Instance.QuitGame();
     }
 
     private IEnumerator LeaveGame()

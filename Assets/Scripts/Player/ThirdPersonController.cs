@@ -2,7 +2,6 @@
 using Fusion;
 using Fusion.Addons.KCC;
 using UnityEngine;
-using UnityEngine.Windows;
 
 /* Note: Animations are called via the controller for both the character and capsule using animator null checks
  */
