@@ -11,24 +11,30 @@ namespace StarterAssets
     public class ThirdPersonController : NetworkBehaviour
     {
         [Header("References")]
-        public KCC KCC;
-        public StarterAssetsInputs StarterAssetsInputs;
-        public Animator Animator;
-        public Transform CameraPivot;
+        [SerializeField] private KCC KCC;
+        [SerializeField] private StarterAssetsInputs StarterAssetsInputs;
+        [SerializeField] private Animator Animator;
+        [SerializeField] private Transform CameraPivot;
 
         [Header("Camera Setup")]
-        public float TopClamp = 70.0f;
-        public float BottomClamp = -30.0f;
+        [SerializeField] private float TopClamp = 70.0f;
+        [SerializeField] private float BottomClamp = -30.0f;
 
         [Header("Movement Setup")]
-        public float JumpImpulse = 6f;
-        public float RotationSpeed = 8f;
+        [SerializeField] private float JumpImpulse = 6f;
+        [SerializeField] private float RotationSpeed = 8f;
 
         [Header("Sounds")]
-        public AudioClip[] FootstepAudioClips;
-        public AudioClip LandingAudioClip;
+        [SerializeField] private AudioClip[] FootstepAudioClips;
+        [SerializeField] private AudioClip LandingAudioClip;
         [Range(0f, 1f)]
-        public float FootstepAudioVolume = 0.5f;
+        [SerializeField] private float FootstepAudioVolume = 0.5f;
+
+        [Header("Character customization")]
+        public Material[] PlayerPrefabMaterials;
+        [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+        [Networked]
+        private int _characterMaterialIndex { get; set; }
 
         [Networked]
         private NetworkBool _isJumping { get; set; }
@@ -50,6 +56,11 @@ namespace StarterAssets
         // Jump
         private bool _canJump;
 
+        public override void Spawned()
+        {
+            _skinnedMeshRenderer.material = PlayerPrefabMaterials[_characterMaterialIndex];
+        }
+
         public override void FixedUpdateNetwork()
         {
             if (KCC.Data.IsGrounded)
@@ -67,6 +78,12 @@ namespace StarterAssets
             Animator.SetBool(_animIDJump, _isJumping);
             Animator.SetBool(_animIDGrounded, KCC.Data.IsGrounded);
             Animator.SetBool(_animIDFreeFall, KCC.Data.RealVelocity.y < -5f);
+        }
+
+        public void SetCharacterMaterialIndex(int characterMaterialIndex)
+        {
+            _characterMaterialIndex = characterMaterialIndex;
+            _skinnedMeshRenderer.material = PlayerPrefabMaterials[_characterMaterialIndex];
         }
 
         private void Awake()
@@ -100,8 +117,6 @@ namespace StarterAssets
 
         private void ProcessInput(GameplayInput input)
         {
-            Debug.Log("KCC.Data.IsGrounded: " + KCC.Data.IsGrounded);
-
             if (KCC.Data.IsGrounded)
             {
                 if (input.IsJumping)
