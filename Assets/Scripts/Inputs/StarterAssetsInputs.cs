@@ -70,6 +70,22 @@ namespace StarterAssets
             }
         }
 
+        public void OnOpenToolsWheelInput(CallbackContext context)
+        {
+            if (context.started)
+            {
+                UIManager.Instance.CallOpenToolsWheel();
+            }
+        }
+
+        public void OnCloseToolsWheelInput(CallbackContext context)
+        {
+            if (context.canceled)
+            {
+                UIManager.Instance.CallCloseToolsWheel();
+            }
+        }
+
         public void OnPauseInput(CallbackContext context)
         {
             if (context.started)
@@ -94,11 +110,13 @@ namespace StarterAssets
         private void OnEnable()
         {
             GameManager.Instance.OnChangeIsGamePaused += SetCurrentActionMap;
+            GameManager.Instance.OnChangeIsSelectingTool += SetCurrentActionMap;
         }
 
         private void OnDisable()
         {
             GameManager.Instance.OnChangeIsGamePaused -= SetCurrentActionMap;
+            GameManager.Instance.OnChangeIsSelectingTool -= SetCurrentActionMap;
         }
 
         private void Update()
@@ -114,7 +132,7 @@ namespace StarterAssets
                 return;
             }
 
-            if (GameManager.Instance.IsGamePaused)
+            if (GameManager.Instance.IsGamePaused || GameManager.Instance.IsSelectingTool)
             {
                 Cursor.lockState = CursorLockMode.None;
             }
@@ -129,6 +147,10 @@ namespace StarterAssets
             if (GameManager.Instance.IsGamePaused)
             {
                 _playerInput.SwitchCurrentActionMap(Constants.UI_ACTION_MAP_NAME);
+            }
+            else if (GameManager.Instance.IsSelectingTool)
+            {
+                _playerInput.SwitchCurrentActionMap(Constants.TOOL_SELECTION_ACTION_MAP_NAME);
             }
             else
             {

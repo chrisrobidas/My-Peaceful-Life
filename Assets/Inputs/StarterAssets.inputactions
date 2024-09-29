@@ -39,12 +39,21 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Pause",
                     "type": "Button",
                     "id": "1a4b8b09-374c-443c-948c-4787044c3f66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleToolsWheel",
+                    "type": "Button",
+                    "id": "06063090-7133-4cd6-9916-3529257a4f74",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -249,6 +258,28 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b2f8137f-d288-4269-a701-3c2bc18608e2",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ToggleToolsWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64f67525-5690-4d6a-88ab-c62d83f03bc5",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ToggleToolsWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -286,6 +317,45 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Resume",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ToolSelection",
+            "id": "5272922e-827b-415e-91dc-5796117aba6e",
+            "actions": [
+                {
+                    "name": "ToggleToolsWheel",
+                    "type": "Button",
+                    "id": "73b30edc-151c-4190-b8fb-d1ab6b9187ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5e032b36-de0b-4990-958b-37c78643929a",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ToggleToolsWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d0efc9f-6b0d-4387-8649-f9955d453464",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ToggleToolsWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

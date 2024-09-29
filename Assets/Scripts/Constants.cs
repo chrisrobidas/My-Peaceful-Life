@@ -1,8 +1,10 @@
 public static class Constants
 {
     // Action Map
-    public const string UI_ACTION_MAP_NAME = "UI";
     public const string PLAYER_ACTION_MAP_NAME = "PLAYER";
+    public const string TOOL_SELECTION_ACTION_MAP_NAME = "TOOLSELECTION";
+    public const string UI_ACTION_MAP_NAME = "UI";
+    
 
     // Player
     public const string PLAYER_FOLLOW_CAMERA = "PlayerFollowCamera";

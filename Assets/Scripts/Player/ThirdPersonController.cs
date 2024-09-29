@@ -123,7 +123,7 @@ namespace StarterAssets
                 {
                     if (_canJump)
                     {
-                        KCC.Jump(Vector3.up * JumpImpulse); // TODO: PREVENT HOLD JUMP BUTTON
+                        KCC.Jump(Vector3.up * JumpImpulse);
                         _isJumping = true;
                         _canJump = false;
                     }

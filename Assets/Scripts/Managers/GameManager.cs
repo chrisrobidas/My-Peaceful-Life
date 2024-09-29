@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour
     public NetworkRunner RunnerPrefab;
 
     public bool IsGamePaused { get; private set; }
+    public bool IsSelectingTool { get; private set; }
 
     public Action OnChangeIsGamePaused;
+    public Action OnChangeIsSelectingTool;
 
     private NetworkRunner _networkRunner;
 
@@ -48,6 +50,18 @@ public class GameManager : MonoBehaviour
         if (OnChangeIsGamePaused != null)
         {
             OnChangeIsGamePaused.Invoke();
+        }
+    }
+
+    public void SetIsSelectingTool(bool isSelectingTool)
+    {
+        if (isSelectingTool == IsSelectingTool) return;
+
+        IsSelectingTool = isSelectingTool;
+
+        if (OnChangeIsSelectingTool != null)
+        {
+            OnChangeIsSelectingTool.Invoke();
         }
     }
 
