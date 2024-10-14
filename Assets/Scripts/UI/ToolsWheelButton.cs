@@ -11,15 +11,14 @@ public class ToolsWheelButton : MonoBehaviour
     public void OnSelected()
     {
         UIManager.Instance.UpdateSelectedTool(_id, _icon);
-        UIManager.Instance.CallCloseToolsWheel();
     }
 
-    public void OnHoverEnter()
+    public void HoverEnter()
     {
         _buttonAnimator.SetBool("Hovered", true);
     }
 
-    public void OnHoverExit()
+    public void HoverExit()
     {
         _buttonAnimator.SetBool("Hovered", false);
     }
