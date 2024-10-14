@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Action OnChangeIsSelectingTool;
 
     private NetworkRunner _networkRunner;
+    private GameObject _localPlayer;
 
     public async void StartGame()
     {
@@ -39,6 +40,16 @@ public class GameManager : MonoBehaviour
     {
         await _networkRunner.Shutdown();
         _networkRunner = null;
+    }
+
+    public void SetLocalPlayer(GameObject player)
+    {
+        _localPlayer = player;
+    }
+
+    public GameObject GetLocalPlayer()
+    {
+        return _localPlayer;
     }
 
     public void SetIsGamePaused(bool isGamePaused)

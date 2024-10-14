@@ -15,6 +15,7 @@ namespace StarterAssets
         [SerializeField] private StarterAssetsInputs StarterAssetsInputs;
         [SerializeField] private Animator Animator;
         [SerializeField] private Transform CameraPivot;
+        [SerializeField] private GameObject ToolSocket;
 
         [Header("Camera Setup")]
         [SerializeField] private float TopClamp = 70.0f;
@@ -33,11 +34,13 @@ namespace StarterAssets
         [Header("Character customization")]
         public Material[] PlayerPrefabMaterials;
         [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
-        [Networked]
-        private int _characterMaterialIndex { get; set; }
 
         [Networked]
+        private int _characterMaterialIndex { get; set; }
+        [Networked]
         private NetworkBool _isJumping { get; set; }
+        [Networked]
+        private int _heldToolID { get; set; }
 
         // Cinemachine
         private Camera _mainCamera;
@@ -59,6 +62,7 @@ namespace StarterAssets
         public override void Spawned()
         {
             _skinnedMeshRenderer.material = PlayerPrefabMaterials[_characterMaterialIndex];
+            DisplayHeldTool();
         }
 
         public override void FixedUpdateNetwork()
@@ -84,6 +88,39 @@ namespace StarterAssets
         {
             _characterMaterialIndex = characterMaterialIndex;
             _skinnedMeshRenderer.material = PlayerPrefabMaterials[_characterMaterialIndex];
+        }
+
+        public void SwapHeldTool(int toolID)
+        {
+            if (_heldToolID == toolID) return;
+
+            _heldToolID = toolID;
+
+            RPC_SwapHeldTool();
+        }
+
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+        public void RPC_SwapHeldTool()
+        {
+            DisplayHeldTool();
+
+            // Play some animation and particle effect..
+        }
+
+        private void DisplayHeldTool()
+        {
+            for (int i = 0; i < ToolSocket.transform.childCount; i++)
+            {
+                if (i == _heldToolID)
+                {
+                    ToolSocket.transform.GetChild(i).gameObject.SetActive(true);
+                }
+                else
+                {
+                    ToolSocket.transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
         }
 
         private void Awake()

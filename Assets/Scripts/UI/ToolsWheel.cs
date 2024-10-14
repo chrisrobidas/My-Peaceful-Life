@@ -1,3 +1,4 @@
+using StarterAssets;
 using UnityEngine;
 
 public class ToolsWheel : MonoBehaviour
@@ -18,27 +19,11 @@ public class ToolsWheel : MonoBehaviour
 
     public void UpdateSelectedToolID(int selectedToolID)
     {
+        if (_selectedToolID == selectedToolID) return;
+
         _selectedToolID = selectedToolID;
 
-        // TODO: Play animations and sounds here...
-        switch (_selectedToolID)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-        }
+        ThirdPersonController localPlayerThirdPersonController = GameManager.Instance.GetLocalPlayer().GetComponent<ThirdPersonController>();
+        localPlayerThirdPersonController.SwapHeldTool(selectedToolID);
     }
 }
