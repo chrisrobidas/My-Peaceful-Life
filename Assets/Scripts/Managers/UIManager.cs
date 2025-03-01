@@ -41,15 +41,14 @@ public class UIManager : MonoBehaviour
 
     public void CallOpenToolsWheel()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        _toolsWheel.OpenToolsWheel();
         GameManager.Instance.SetIsSelectingTool(true);
+        _toolsWheel.OpenToolsWheel();
     }
 
     public void CallCloseToolsWheel()
     {
-        _toolsWheel.CloseToolsWheel();
         GameManager.Instance.SetIsSelectingTool(false);
+        _toolsWheel.CloseToolsWheel();
     }
 
     public void UpdateSelectedTool(int selectedToolID, Sprite icon)

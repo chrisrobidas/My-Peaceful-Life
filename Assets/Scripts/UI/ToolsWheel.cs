@@ -12,6 +12,9 @@ public class ToolsWheel : MonoBehaviour
     private int _selectedToolID;
     private int _hoveredToolID;
 
+    private ThirdPersonController _localPlayerThirdPersonController;
+    private StarterAssetsInputs _localPlayerStarterAssetsInputs;
+
     public void OpenToolsWheel()
     {
         _animator.SetBool("ToolsWheelOpened", true);
@@ -29,8 +32,7 @@ public class ToolsWheel : MonoBehaviour
 
         _selectedToolID = selectedToolID;
 
-        ThirdPersonController localPlayerThirdPersonController = GameManager.Instance.GetLocalPlayer().GetComponent<ThirdPersonController>();
-        localPlayerThirdPersonController.SwapHeldTool(selectedToolID);
+        GetLocalPlayerThirdPersonController().SwapHeldTool(selectedToolID);
     }
 
     private void Start()
@@ -47,12 +49,55 @@ public class ToolsWheel : MonoBehaviour
     {
         if (!GameManager.Instance.IsSelectingTool) return;
 
+        float? angle = null;
+        if (GetLocalPlayerStarterAssetsInputs().IsCurrentDeviceGamepad)
+        {
+            angle = GetToolSelectionAngleFromController();
+        }
+        else
+        {
+            angle = GetToolSelectionAngleFromMouse();
+        }
+
+        if (angle.HasValue)
+        {
+            float angleValue = angle.Value;
+            SetButtonIndexFromAngle(angleValue);
+            HighlightButton();
+        }
+    }
+
+    private ThirdPersonController GetLocalPlayerThirdPersonController()
+    {
+        if (_localPlayerThirdPersonController == null)
+        {
+            _localPlayerThirdPersonController = GameManager.Instance.GetLocalPlayer().GetComponent<ThirdPersonController>();
+        }
+
+        return _localPlayerThirdPersonController;
+    }
+
+    private StarterAssetsInputs GetLocalPlayerStarterAssetsInputs()
+    {
+        if (_localPlayerStarterAssetsInputs == null)
+        {
+            _localPlayerStarterAssetsInputs = GetLocalPlayerThirdPersonController().GetComponent<StarterAssetsInputs>();
+        }
+
+        return _localPlayerStarterAssetsInputs;
+    }
+
+    private float? GetToolSelectionAngleFromMouse()
+    {
         Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-        Vector2 mousePosition = Input.mousePosition;
+        Vector2 mousePosition = GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+
+        if (mousePosition == Vector2.zero) return null;  // To skip the invalid frame where mousePosition is (0,0,0) while the Cursor.lockState is changing to None
+
         Vector2 direction = mousePosition - screenCenter;
 
         // The player must have moved a bit the mouse away from the center of the screen to select a tool
-        if (direction.magnitude < 40) return;
+        if (direction.magnitude < 40) return null;
 
         float angle = -(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
 
@@ -63,15 +108,32 @@ public class ToolsWheel : MonoBehaviour
         // Adjust the angle to be between 0 and 360
         if (angle < 0) angle += 360f;
 
-        _hoveredToolID = GetButtonIndexFromAngle(angle);
-        HighlightButton();
+        return angle;
     }
 
-    private int GetButtonIndexFromAngle(float angle)
+    private float? GetToolSelectionAngleFromController()
+    {
+        Vector2 stickInput = GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+
+        // Ignore small inputs (dead zone)
+        if (stickInput.sqrMagnitude < 0.1f) return null;
+
+        float angle = -(Mathf.Atan2(stickInput.y, stickInput.x) * Mathf.Rad2Deg);
+
+        // Adjust the angle so the angle on left and right of the hand are 0 and 45
+        float halfSegmentAngle = (360f / _toolsWheelButtons.Length) / 2;
+        angle += 90f + halfSegmentAngle;
+
+        // Adjust the angle to be between 0 and 360
+        if (angle < 0) angle += 360;
+
+        return angle;
+    }
+
+    private void SetButtonIndexFromAngle(float angle)
     {
         float segmentAngle = 360f / _toolsWheelButtons.Length;
-        int buttonIndex = Mathf.FloorToInt(angle / segmentAngle);
-        return buttonIndex;
+        _hoveredToolID = Mathf.FloorToInt(angle / segmentAngle);
     }
 
     private void HighlightButton()

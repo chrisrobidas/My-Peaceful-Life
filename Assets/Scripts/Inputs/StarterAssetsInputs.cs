@@ -12,11 +12,19 @@ namespace StarterAssets
         public bool IsSprinting;
     }
 
+    public struct ToolSelectionInput
+    {
+        public Vector2 Selection;
+    }
+
     [RequireComponent(typeof(PlayerInput))]
     public class StarterAssetsInputs : MonoBehaviour
     {
-        public GameplayInput CurrentInput => _input;
-        private GameplayInput _input;
+        public GameplayInput CurrentGameplayInput => _gameplayInput;
+        private GameplayInput _gameplayInput;
+
+        public ToolSelectionInput CurrentToolSelectionInput => _toolSelectionInput;
+        private ToolSelectionInput _toolSelectionInput;
 
         private PlayerInput _playerInput;
 
@@ -38,23 +46,23 @@ namespace StarterAssets
 
         public void OnMoveInput(CallbackContext context)
 		{
-            _input.MoveDirection = context.ReadValue<Vector2>();
+            _gameplayInput.MoveDirection = context.ReadValue<Vector2>();
 		}
 
 		public void OnLookInput(CallbackContext context)
 		{
-            _input.LookRotation = context.ReadValue<Vector2>();
+            _gameplayInput.LookRotation = context.ReadValue<Vector2>();
         }
 
 		public void OnJumpInput(CallbackContext context)
 		{
             if (context.started)
             {
-                _input.IsJumping = true;
+                _gameplayInput.IsJumping = true;
             }
             else if (context.canceled)
             {
-                _input.IsJumping = false;
+                _gameplayInput.IsJumping = false;
             }
         }
 
@@ -62,11 +70,11 @@ namespace StarterAssets
 		{
             if (context.started)
             {
-                _input.IsSprinting = true;
+                _gameplayInput.IsSprinting = true;
             }
             else if (context.canceled)
             {
-                _input.IsSprinting = false;
+                _gameplayInput.IsSprinting = false;
             }
         }
 
@@ -100,6 +108,11 @@ namespace StarterAssets
             {
                 UIManager.Instance.HidePauseMenuPanel();
             }
+        }
+
+        public void OnSelectionInput(CallbackContext context)
+        {
+            _toolSelectionInput.Selection = context.ReadValue<Vector2>();
         }
 
         private void Start()

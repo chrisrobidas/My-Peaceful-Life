@@ -47,7 +47,7 @@ namespace StarterAssets
         private CinemachineVirtualCamera _virtualCamera;
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
-        private const float _threshold = 0.01f;
+        private const float Threshold = 0.01f;
 
         // Animation IDs
         private int _animIDSpeed;
@@ -72,7 +72,7 @@ namespace StarterAssets
                 _isJumping = false;
             }
 
-            ProcessInput(StarterAssetsInputs.CurrentInput);
+            ProcessInput(StarterAssetsInputs.CurrentGameplayInput);
         }
 
         public override void Render()
@@ -149,7 +149,7 @@ namespace StarterAssets
             if (HasStateAuthority == false)
                 return;
 
-            CameraRotation(StarterAssetsInputs.CurrentInput);
+            CameraRotation(StarterAssetsInputs.CurrentGameplayInput);
         }
 
         private void ProcessInput(GameplayInput input)
@@ -192,7 +192,7 @@ namespace StarterAssets
         private void CameraRotation(GameplayInput input)
         {
             // If there is an input and camera position is not fixed
-            if (input.LookRotation.sqrMagnitude >= _threshold)
+            if (input.LookRotation.sqrMagnitude >= Threshold)
             {
                 // Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = StarterAssetsInputs.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
