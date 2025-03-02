@@ -2486,6 +2486,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 18008095503012359, guid: ebd12dd249a9ef041ace0c801df7cb58,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 18008095503012359, guid: ebd12dd249a9ef041ace0c801df7cb58,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2645,6 +2650,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6301331854045141494, guid: ce67ff6b84308974d9bea02fb03f51de,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6301331854045141494, guid: ce67ff6b84308974d9bea02fb03f51de,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2671,6 +2681,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fishingrod
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871937558990206618, guid: 7f2d1f38c566d19429735e1dec8302c9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1871937558990206618, guid: 7f2d1f38c566d19429735e1dec8302c9,
         type: 3}
@@ -2761,6 +2776,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6137778970969270112}
     m_Modifications:
+    - target: {fileID: 725697459557079894, guid: ac57dcd0a0ded0c47905196894392c83,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4079628959055956333, guid: ac57dcd0a0ded0c47905196894392c83,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2826,6 +2846,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 233.632
       objectReference: {fileID: 0}
+    - target: {fileID: 5024858365390951664, guid: ac57dcd0a0ded0c47905196894392c83,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037911551331210482, guid: ac57dcd0a0ded0c47905196894392c83,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5939124689332266660, guid: ac57dcd0a0ded0c47905196894392c83,
         type: 3}
       propertyPath: m_Name
@@ -2833,8 +2863,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5939124689332266660, guid: ac57dcd0a0ded0c47905196894392c83,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939124689332266660, guid: ac57dcd0a0ded0c47905196894392c83,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7006367906539486136, guid: ac57dcd0a0ded0c47905196894392c83,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2859,6 +2899,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pickaxe
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234146512507840093, guid: eb3fa0c9027882b4084517c1a3342a1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8234146512507840093, guid: eb3fa0c9027882b4084517c1a3342a1f,
         type: 3}
@@ -3021,6 +3066,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2107445268991262960, guid: c2a5ce7a51631494195248903c6c32cd,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107445268991262960, guid: c2a5ce7a51631494195248903c6c32cd,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -3112,6 +3162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317823749142253822, guid: d4958227484245e4592c41ab2c02ad22,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3317823749142253822, guid: d4958227484245e4592c41ab2c02ad22,
         type: 3}
