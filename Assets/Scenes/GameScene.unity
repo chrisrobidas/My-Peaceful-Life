@@ -5001,7 +5001,7 @@ PrefabInstance:
     - target: {fileID: 752439481557020075, guid: 6378528d738f383499f29fde237be01c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.04
+      value: 22.07
       objectReference: {fileID: 0}
     - target: {fileID: 752439481557020075, guid: 6378528d738f383499f29fde237be01c,
         type: 3}
@@ -5011,7 +5011,7 @@ PrefabInstance:
     - target: {fileID: 752439481557020075, guid: 6378528d738f383499f29fde237be01c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8
+      value: 12.36
       objectReference: {fileID: 0}
     - target: {fileID: 752439481557020075, guid: 6378528d738f383499f29fde237be01c,
         type: 3}
@@ -5159,11 +5159,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PostProcess
-      objectReference: {fileID: 0}
-    - target: {fileID: 563288292267332822, guid: ad9506fc1305aac47b1113726fa35054,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4178036784717811837, guid: ad9506fc1305aac47b1113726fa35054,
         type: 3}
