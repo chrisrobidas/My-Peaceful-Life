@@ -21,7 +21,7 @@ public class PlayerSpawner : NetworkBehaviour, IStateAuthorityChanged
         player.gameObject.GetComponent<PlayerInput>().enabled = true;
 
         // Set the local player in the GameManager for easy access later
-        GameManager.Instance.SetLocalPlayer(player.gameObject);
+        PlayersManager.Instance.SetLocalPlayer(player.gameObject);
 
         // Assigns a material based on how many player spawned so far
         ThirdPersonController thirdPersonController = player.gameObject.GetComponent<ThirdPersonController>();

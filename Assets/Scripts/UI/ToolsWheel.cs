@@ -12,9 +12,6 @@ public class ToolsWheel : MonoBehaviour
     private int _selectedToolID;
     private int _hoveredToolID;
 
-    private ThirdPersonController _localPlayerThirdPersonController;
-    private StarterAssetsInputs _localPlayerStarterAssetsInputs;
-
     public void OpenToolsWheel()
     {
         _animator.SetBool("ToolsWheelOpened", true);
@@ -32,7 +29,7 @@ public class ToolsWheel : MonoBehaviour
 
         _selectedToolID = selectedToolID;
 
-        GetLocalPlayerThirdPersonController().SwapHeldTool(selectedToolID);
+        PlayersManager.Instance.GetLocalPlayerThirdPersonController().SwapHeldTool(selectedToolID);
     }
 
     private void Start()
@@ -50,7 +47,7 @@ public class ToolsWheel : MonoBehaviour
         if (!GameManager.Instance.IsSelectingTool) return;
 
         float? angle = null;
-        if (GetLocalPlayerStarterAssetsInputs().IsCurrentDeviceGamepad)
+        if (PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().IsCurrentDeviceGamepad)
         {
             angle = GetToolSelectionAngleFromController();
         }
@@ -67,30 +64,10 @@ public class ToolsWheel : MonoBehaviour
         }
     }
 
-    private ThirdPersonController GetLocalPlayerThirdPersonController()
-    {
-        if (_localPlayerThirdPersonController == null)
-        {
-            _localPlayerThirdPersonController = GameManager.Instance.GetLocalPlayer().GetComponent<ThirdPersonController>();
-        }
-
-        return _localPlayerThirdPersonController;
-    }
-
-    private StarterAssetsInputs GetLocalPlayerStarterAssetsInputs()
-    {
-        if (_localPlayerStarterAssetsInputs == null)
-        {
-            _localPlayerStarterAssetsInputs = GetLocalPlayerThirdPersonController().GetComponent<StarterAssetsInputs>();
-        }
-
-        return _localPlayerStarterAssetsInputs;
-    }
-
     private float? GetToolSelectionAngleFromMouse()
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-        Vector2 mousePosition = GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+        Vector2 mousePosition = PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
 
         if (mousePosition == Vector2.zero) return null;  // To skip the invalid frame where mousePosition is (0,0,0) while the Cursor.lockState is changing to None
 
@@ -113,7 +90,7 @@ public class ToolsWheel : MonoBehaviour
 
     private float? GetToolSelectionAngleFromController()
     {
-        Vector2 stickInput = GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+        Vector2 stickInput = PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
 
         // Ignore small inputs (dead zone)
         if (stickInput.sqrMagnitude < 0.1f) return null;
