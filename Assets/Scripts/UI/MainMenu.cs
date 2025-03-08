@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     {
         _mainMenuPanel.SetActive(false);
         _loadingPanel.SetActive(true);
-        GameManager.Instance.StartGame();
+        StartCoroutine(GameManager.Instance.StartGame());
     }
 
     public void QuitGame()

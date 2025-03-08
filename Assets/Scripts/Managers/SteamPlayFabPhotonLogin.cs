@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Text;
+using Fusion.Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
 using Steamworks;
 using UnityEngine;
 
-public class SteamPlayFabLogin : MonoBehaviour
+public class SteamPlayFabPhotonLogin : MonoBehaviour
 {
     private const int MAX_LOGIN_RETRIES = 5;
     private const float INITIAL_RETRY_DELAY = 1f;
 
-    HAuthTicket hAuthTicket;
+    private HAuthTicket hAuthTicket;
+    private string _playFabPlayerId;
 
     private void Start()
     {
@@ -27,6 +29,7 @@ public class SteamPlayFabLogin : MonoBehaviour
 
     private void TryLoginToPlayFabWithSteam(int retryCount, float delay = 0)
     {
+        // Added a retry logic because for some reason, it seems like LoginWithSteam sometimes randomly fail
         if (delay > 0)
         {
             StartCoroutine(RetryAfterDelay(retryCount, delay));
@@ -50,6 +53,32 @@ public class SteamPlayFabLogin : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         TryLoginToPlayFabWithSteam(retryCount);
+    }
+
+    private void LoginToPhotonWithPlayFab(string playFabPlayerId)
+    {
+        _playFabPlayerId = playFabPlayerId;
+
+        PlayFabClientAPI.GetPhotonAuthenticationToken(new GetPhotonAuthenticationTokenRequest()
+        {
+            PhotonApplicationId = PhotonAppSettings.Global.AppSettings.AppIdFusion
+        }, AuthenticateToPhoton, OnLoginToPhotonWithPlayFabFailed);
+    }
+
+    private void AuthenticateToPhoton(GetPhotonAuthenticationTokenResult result)
+    {
+        //We set AuthType to custom, meaning we bring our own, PlayFab authentication procedure.
+        var customAuth = new AuthenticationValues { AuthType = CustomAuthenticationType.Custom };
+
+        //We add "username" parameter. Do not let it confuse you: PlayFab is expecting this parameter to contain player PlayFab ID (!) and not username.
+        customAuth.AddAuthParameter("username", _playFabPlayerId);    // expected by PlayFab custom auth service
+
+        //We add "token" parameter. PlayFab expects it to contain Photon Authentication Token issues to your during previous step.
+        customAuth.AddAuthParameter("token", result.PhotonCustomAuthenticationToken);
+
+        GameManager.Instance.SetPhotonAuthenticationValues(customAuth);
+
+        Debug.Log("Photon token acquired, authentication completed.");
     }
 
     private string GetSteamAuthTicket(ref byte[] ticketBlob, ref uint ticketSize)
@@ -90,6 +119,8 @@ public class SteamPlayFabLogin : MonoBehaviour
         // Cancel the Steam auth ticket when done authenticating
         SteamUser.CancelAuthTicket(hAuthTicket);
         Debug.Log("Canceled Steam auth ticket.");
+
+        LoginToPhotonWithPlayFab(loginResult.PlayFabId);
     }
 
     private void OnLoginWithSteamToPlayFabFailed(PlayFabError error, int retryCount)
@@ -120,5 +151,10 @@ public class SteamPlayFabLogin : MonoBehaviour
     private void OnDisplayNameUpdateFailed(PlayFabError error)
     {
         Debug.Log("Failed to update PlayFab display name: " + error.GenerateErrorReport());
+    }
+
+    private void OnLoginToPhotonWithPlayFabFailed(PlayFabError error)
+    {
+        Debug.Log("Failed to login to Photon with PlayFab: " + error.GenerateErrorReport());
     }
 }

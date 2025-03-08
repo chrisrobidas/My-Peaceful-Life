@@ -6001,7 +6001,7 @@ PrefabInstance:
     - target: {fileID: 7682910350248292635, guid: c74fa9e3b45225b46a40e8b690cdc084,
         type: 3}
       propertyPath: m_Name
-      value: SteamManager
+      value: SteamPlayFabPhotonManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

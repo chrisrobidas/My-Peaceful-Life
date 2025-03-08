@@ -1,5 +1,7 @@
 using Fusion;
+using Fusion.Photon.Realtime;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,28 +19,46 @@ public class GameManager : MonoBehaviour
     public Action OnChangeIsSelectingTool;
 
     private NetworkRunner _networkRunner;
+    private AuthenticationValues _photonAuthenticationValues;
 
-    public async void StartGame()
+    public IEnumerator StartGame()
     {
+        yield return StartCoroutine(WaitForPhotonAuthenticationValues());
+
         _networkRunner = Instantiate(RunnerPrefab);
 
         SceneRef gameScene = SceneRef.FromIndex(Constants.GAME_SCENE_INDEX);
         NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
         sceneInfo.AddSceneRef(gameScene);
 
-        await _networkRunner.StartGame(new StartGameArgs()
+        _networkRunner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Shared,
             PlayerCount = 10,
             SessionName = "MyPeacefulLifeRoom",
             Scene = gameScene,
+            AuthValues = _photonAuthenticationValues,
         });
     }
 
-    public async void StopGame()
+    public void StopGame()
     {
-        await _networkRunner.Shutdown();
+        _networkRunner.Shutdown();
         _networkRunner = null;
+    }
+
+    private IEnumerator WaitForPhotonAuthenticationValues()
+    {
+        while (_photonAuthenticationValues == null)
+        {
+            Debug.Log("Waiting for the Photon authentication values...");
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    public void SetPhotonAuthenticationValues(AuthenticationValues photonAuthenticationValues)
+    {
+        _photonAuthenticationValues = photonAuthenticationValues;
     }
 
     public void SetIsGamePaused(bool isGamePaused)
@@ -109,7 +129,7 @@ public class GameManager : MonoBehaviour
                 SetIsGamePaused(true);
                 break;
             case Constants.GAME_SCENE_INDEX:
-                if (_networkRunner == null) StartGame();
+                if (_networkRunner == null) StartCoroutine(StartGame());
                 SetIsGamePaused(false);
                 break;
         }
