@@ -7,6 +7,7 @@ public class PlayersManager : MonoBehaviour
 
     private GameObject _localPlayer;
     private Inventory _localPlayerInventory;
+    private ItemDropper _localPlayerItemDropper;
     private StarterAssetsInputs _localPlayerStarterAssetsInputs;
     private ThirdPersonController _localPlayerThirdPersonController;
 
@@ -28,6 +29,16 @@ public class PlayersManager : MonoBehaviour
         }
 
         return _localPlayerInventory;
+    }
+
+    public ItemDropper GetLocalPlayerItemDropper()
+    {
+        if (_localPlayerItemDropper == null)
+        {
+            _localPlayerItemDropper = GetLocalPlayer().GetComponent<ItemDropper>();
+        }
+
+        return _localPlayerItemDropper;
     }
 
     public StarterAssetsInputs GetLocalPlayerStarterAssetsInputs()

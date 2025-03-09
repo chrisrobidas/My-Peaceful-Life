@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -20,6 +21,8 @@ namespace StarterAssets
     [RequireComponent(typeof(PlayerInput))]
     public class StarterAssetsInputs : MonoBehaviour
     {
+        public Action OnInteract;
+
         public GameplayInput CurrentGameplayInput => _gameplayInput;
         private GameplayInput _gameplayInput;
 
@@ -44,6 +47,8 @@ namespace StarterAssets
             }
         }
 
+
+        // PLAYER ACTIONS
         public void OnMoveInput(CallbackContext context)
 		{
             _gameplayInput.MoveDirection = context.ReadValue<Vector2>();
@@ -78,6 +83,14 @@ namespace StarterAssets
             }
         }
 
+        public void OnPauseInput(CallbackContext context)
+        {
+            if (context.started)
+            {
+                UIManager.Instance.ShowPauseMenuPanel();
+            }
+        }
+
         public void OnOpenToolsWheelInput(CallbackContext context)
         {
             if (context.started)
@@ -86,22 +99,15 @@ namespace StarterAssets
             }
         }
 
-        public void OnCloseToolsWheelInput(CallbackContext context)
-        {
-            if (context.canceled)
-            {
-                UIManager.Instance.CallCloseToolsWheel();
-            }
-        }
-
-        public void OnPauseInput(CallbackContext context)
+        public void OnInteractInput(CallbackContext context)
         {
             if (context.started)
             {
-				UIManager.Instance.ShowPauseMenuPanel();
+                OnInteract.Invoke();
             }
         }
 
+        // UI ACTIONS
         public void OnResumeInput(CallbackContext context)
         {
             if (context.started)
@@ -110,6 +116,15 @@ namespace StarterAssets
             }
         }
 
+        // TOOL SELECTION ACTIONS
+        public void OnCloseToolsWheelInput(CallbackContext context)
+        {
+            if (context.canceled)
+            {
+                UIManager.Instance.CallCloseToolsWheel();
+            }
+        }
+        
         public void OnSelectionInput(CallbackContext context)
         {
             _toolSelectionInput.Selection = context.ReadValue<Vector2>();

@@ -1,20 +1,28 @@
+using System;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+[Serializable]
+public class Item
 {
-    [SerializeField] private string _itemName;
-    [SerializeField] private Sprite _itemImage;
-    [SerializeField] private string _maxAmount;
+    public const string DEFAULT_ITEM_NAME = "DefaultItem";
 
-    private int _amount; // mmmm??
+    public string Name;
+    public int StackAmount;
+    public int MaxStackAmount = 1;
+    public Sprite Sprite;
+    public GameObject Prefab;
 
-    private void PickUp()
+    public Item()
     {
-        PlayersManager.Instance.GetLocalPlayerInventory().AddItem(this);
+        Name = DEFAULT_ITEM_NAME;
     }
 
-    private void Drop()
+    public Item(string name, int stackAmount, int maxStackAmount, Sprite sprite, GameObject prefab)
     {
-        PlayersManager.Instance.GetLocalPlayerInventory().RemoveItem(this);
+        Name = name;
+        StackAmount = stackAmount;
+        MaxStackAmount = maxStackAmount;
+        Sprite = sprite;
+        Prefab = prefab;
     }
 }
