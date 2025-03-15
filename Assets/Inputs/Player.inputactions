@@ -42,7 +42,25 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Pause",
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "76900840-6226-4a74-99ec-26aafd0b1ef9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShowInventoryMenu",
+                    "type": "Button",
+                    "id": "4172e6a3-64b1-4365-93d4-5a16a897a249",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShowPauseMenu",
                     "type": "Button",
                     "id": "1a4b8b09-374c-443c-948c-4787044c3f66",
                     "expectedControlType": "Button",
@@ -51,18 +69,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleToolsWheel",
+                    "name": "ShowToolsWheel",
                     "type": "Button",
                     "id": "06063090-7133-4cd6-9916-3529257a4f74",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "76900840-6226-4a74-99ec-26aafd0b1ef9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -253,7 +262,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Pause",
+                    "action": "ShowPauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -264,7 +273,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Pause",
+                    "action": "ShowPauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -275,7 +284,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "ToggleToolsWheel",
+                    "action": "ShowToolsWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -286,7 +295,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ToggleToolsWheel",
+                    "action": "ShowToolsWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -311,15 +320,98 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e372845a-e70e-4ad8-9b5c-ec158358f072",
+                    "path": "<Keyboard>/#(I)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ShowInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f01f762-cf3c-4392-9b1f-3423a6a49336",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ShowInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "UI",
+            "name": "InventoryMenu",
+            "id": "e554f33e-cb1b-41e7-b26a-059401d630ec",
+            "actions": [
+                {
+                    "name": "HideInventoryMenu",
+                    "type": "Button",
+                    "id": "ed631ae3-0cab-468a-9c26-fad2a38111ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "97c5bd80-3a42-4ffa-b347-12dd84d11c5c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "HideInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09ff860f-0625-485f-b4fb-2ffec18568fa",
+                    "path": "<Keyboard>/#(I)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "HideInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c970a62b-6b48-4253-852b-c7130efdb41f",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HideInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99dd89d9-fd69-4e75-b31d-e1c52c5c5aef",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HideInventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseMenu",
             "id": "b02af13d-f766-4553-8ec0-149857744745",
             "actions": [
                 {
-                    "name": "Resume",
+                    "name": "HidePauseMenu",
                     "type": "Button",
                     "id": "eae847b9-8528-4990-b64f-2291190b585e",
                     "expectedControlType": "Button",
@@ -336,7 +428,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Resume",
+                    "action": "HidePauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -347,7 +439,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Resume",
+                    "action": "HidePauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8802760-ac30-456f-9383-88694cd43faa",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HidePauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -358,7 +461,7 @@
             "id": "5272922e-827b-415e-91dc-5796117aba6e",
             "actions": [
                 {
-                    "name": "ToggleToolsWheel",
+                    "name": "HideToolsWheel",
                     "type": "Button",
                     "id": "73b30edc-151c-4190-b8fb-d1ab6b9187ec",
                     "expectedControlType": "Button",
@@ -384,7 +487,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "ToggleToolsWheel",
+                    "action": "HideToolsWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -395,7 +498,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ToggleToolsWheel",
+                    "action": "HideToolsWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

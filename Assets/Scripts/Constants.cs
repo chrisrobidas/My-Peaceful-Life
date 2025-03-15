@@ -1,9 +1,10 @@
 public static class Constants
 {
-    // Action Map
-    public const string PLAYER_ACTION_MAP_NAME = "PLAYER";
-    public const string TOOL_SELECTION_ACTION_MAP_NAME = "TOOLSELECTION";
-    public const string UI_ACTION_MAP_NAME = "UI";
+    // Action Maps
+    public const string PLAYER_ACTION_MAP_NAME = "Player";
+    public const string INVENTORY_MENU_ACTION_MAP_NAME = "InventoryMenu";
+    public const string PAUSE_MENU_ACTION_MAP_NAME = "PauseMenu";
+    public const string TOOL_SELECTION_ACTION_MAP_NAME = "ToolSelection";
 
     // Layers
     public const string PLAYER_LAYER = "Player";

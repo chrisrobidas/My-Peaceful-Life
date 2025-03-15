@@ -1,4 +1,3 @@
-using StarterAssets;
 using UnityEngine;
 
 public class PlayersManager : MonoBehaviour
@@ -8,7 +7,7 @@ public class PlayersManager : MonoBehaviour
     private GameObject _localPlayer;
     private Inventory _localPlayerInventory;
     private ItemDropper _localPlayerItemDropper;
-    private StarterAssetsInputs _localPlayerStarterAssetsInputs;
+    private PlayerInputs _localPlayerPlayerInputs;
     private ThirdPersonController _localPlayerThirdPersonController;
 
     public void SetLocalPlayer(GameObject player)
@@ -41,14 +40,14 @@ public class PlayersManager : MonoBehaviour
         return _localPlayerItemDropper;
     }
 
-    public StarterAssetsInputs GetLocalPlayerStarterAssetsInputs()
+    public PlayerInputs GetLocalPlayerPlayerInputs()
     {
-        if (_localPlayerStarterAssetsInputs == null)
+        if (_localPlayerPlayerInputs == null)
         {
-            _localPlayerStarterAssetsInputs = GetLocalPlayer().GetComponent<StarterAssetsInputs>();
+            _localPlayerPlayerInputs = GetLocalPlayer().GetComponent<PlayerInputs>();
         }
 
-        return _localPlayerStarterAssetsInputs;
+        return _localPlayerPlayerInputs;
     }
 
     public ThirdPersonController GetLocalPlayerThirdPersonController()

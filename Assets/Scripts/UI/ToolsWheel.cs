@@ -43,10 +43,10 @@ public class ToolsWheel : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.IsSelectingTool) return;
+        if (GameManager.Instance.CurrentGameStatus != GameStatus.ToolSelection) return;
 
         float? angle = null;
-        if (PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().IsCurrentDeviceGamepad)
+        if (PlayersManager.Instance.GetLocalPlayerPlayerInputs().IsCurrentDeviceGamepad)
         {
             angle = GetToolSelectionAngleFromController();
         }
@@ -66,7 +66,7 @@ public class ToolsWheel : MonoBehaviour
     private float? GetToolSelectionAngleFromMouse()
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-        Vector2 mousePosition = PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+        Vector2 mousePosition = PlayersManager.Instance.GetLocalPlayerPlayerInputs().CurrentToolSelectionInput.Selection;
 
         if (mousePosition == Vector2.zero) return null;  // To skip the invalid frame where mousePosition is (0,0,0) while the Cursor.lockState is changing to None
 
@@ -89,7 +89,7 @@ public class ToolsWheel : MonoBehaviour
 
     private float? GetToolSelectionAngleFromController()
     {
-        Vector2 stickInput = PlayersManager.Instance.GetLocalPlayerStarterAssetsInputs().CurrentToolSelectionInput.Selection;
+        Vector2 stickInput = PlayersManager.Instance.GetLocalPlayerPlayerInputs().CurrentToolSelectionInput.Selection;
 
         // Ignore small inputs (dead zone)
         if (stickInput.sqrMagnitude < 0.1f) return null;

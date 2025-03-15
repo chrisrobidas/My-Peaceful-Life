@@ -5,18 +5,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameStatus
+{
+    Playing,
+    Inventory,
+    PauseMenu,
+    ToolSelection,
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameStatus CurrentGameStatus { get; private set; }
 
     [Header("Start Game Setup")]
     public NetworkRunner RunnerPrefab;
-
-    public bool IsGamePaused { get; private set; }
-    public bool IsSelectingTool { get; private set; }
-
-    public Action OnChangeIsGamePaused;
-    public Action OnChangeIsSelectingTool;
+    public Action OnChangeCurrentGameStatus;
 
     private NetworkRunner _networkRunner;
     private AuthenticationValues _photonAuthenticationValues;
@@ -61,27 +65,15 @@ public class GameManager : MonoBehaviour
         _photonAuthenticationValues = photonAuthenticationValues;
     }
 
-    public void SetIsGamePaused(bool isGamePaused)
+    public void SetCurrentGameStatus(GameStatus gameStatus)
     {
-        if (isGamePaused == IsGamePaused) return;
+        if (gameStatus == CurrentGameStatus) return;
 
-        IsGamePaused = isGamePaused;
+        CurrentGameStatus = gameStatus;
 
-        if (OnChangeIsGamePaused != null)
+        if (OnChangeCurrentGameStatus != null)
         {
-            OnChangeIsGamePaused.Invoke();
-        }
-    }
-
-    public void SetIsSelectingTool(bool isSelectingTool)
-    {
-        if (isSelectingTool == IsSelectingTool) return;
-
-        IsSelectingTool = isSelectingTool;
-
-        if (OnChangeIsSelectingTool != null)
-        {
-            OnChangeIsSelectingTool.Invoke();
+            OnChangeCurrentGameStatus.Invoke();
         }
     }
 
@@ -126,11 +118,11 @@ public class GameManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case Constants.MAIN_MENU_SCENE_INDEX:
-                SetIsGamePaused(true);
+                SetCurrentGameStatus(GameStatus.PauseMenu);
                 break;
             case Constants.GAME_SCENE_INDEX:
                 if (_networkRunner == null) StartCoroutine(StartGame());
-                SetIsGamePaused(false);
+                SetCurrentGameStatus(GameStatus.Playing);
                 break;
         }
     }

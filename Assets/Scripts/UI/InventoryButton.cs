@@ -4,16 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class InventoryButton : MonoBehaviour
+public class InventoryButton
 {
     public Button Button;
-    public Sprite Sprite;
-    public TMP_Text Count;
+    public Image Image;
+    public GameObject AmountImage;
+    public TMP_Text AmountText;
 
-    public InventoryButton(Button button, Sprite image, TMP_Text count)
+    public InventoryButton(Button button, Image image, GameObject amountImage, TMP_Text amountText)
     {
         Button = button;
-        Sprite = image;
-        Count = count;
+        Image = image;
+        AmountImage = amountImage;
+        AmountText = amountText;
     }
 }

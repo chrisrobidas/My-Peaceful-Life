@@ -19,17 +19,21 @@ public class InventoryMenu : MonoBehaviour
 
             if (item.Name != Item.DEFAULT_ITEM_NAME)
             {
-                _inventoryButtons[i].Sprite = item.Sprite;
-                _inventoryButtons[i].Count.text = item.StackAmount + "";
                 _inventoryButtons[i].Button.interactable = true;
                 _inventoryButtons[i].Button.onClick.AddListener(() => DropItemFromInventory(i));
+                _inventoryButtons[i].Image.sprite = item.Sprite;
+                _inventoryButtons[i].Image.color = Color.white;
+                _inventoryButtons[i].AmountImage.SetActive(true);
+                _inventoryButtons[i].AmountText.text = item.StackAmount + "";
             }
             else
             {
-                _inventoryButtons[i].Sprite = null;
-                _inventoryButtons[i].Count.text = 0 + "";
                 _inventoryButtons[i].Button.interactable = false;
                 _inventoryButtons[i].Button.onClick.RemoveAllListeners();
+                _inventoryButtons[i].Image.sprite = null;
+                _inventoryButtons[i].Image.color = Color.clear;
+                _inventoryButtons[i].AmountImage.SetActive(false);
+                _inventoryButtons[i].AmountText.text = 0 + "";
             }
         }
     }

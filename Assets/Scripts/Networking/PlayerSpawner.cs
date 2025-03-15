@@ -1,7 +1,6 @@
 using UnityEngine;
 using Fusion;
 using UnityEngine.InputSystem;
-using StarterAssets;
 
 public class PlayerSpawner : NetworkBehaviour, IStateAuthorityChanged
 {
@@ -17,7 +16,7 @@ public class PlayerSpawner : NetworkBehaviour, IStateAuthorityChanged
         NetworkObject player = Runner.Spawn(_playerPrefab, _spawnPoints[spawnIndex].position, Quaternion.identity, Runner.LocalPlayer);
 
         // Enables inputs for the local player
-        player.gameObject.GetComponent<StarterAssetsInputs>().enabled = true;
+        player.gameObject.GetComponent<PlayerInputs>().enabled = true;
         player.gameObject.GetComponent<PlayerInput>().enabled = true;
 
         // Set the local player in the GameManager for easy access later

@@ -5,7 +5,7 @@ public class Inventory : MonoBehaviour
 {
     private const int INVENTORY_SIZE = 42;
 
-    public List<Item> Items { get; private set; } = new List<Item>();
+    [HideInInspector] public List<Item> Items { get; private set; } = new List<Item>();
 
     private void Start()
     {
