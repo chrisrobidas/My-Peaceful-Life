@@ -12,10 +12,13 @@ public class ItemDropper : MonoBehaviour
 
         if (closestTerrain == null) return;
 
-        Vector3 dropPositionTarget = GetRandomDropPosition(closestTerrain);
-        Quaternion dropRotationTarget = TerrainUtil.GetRotationFromTerrainNormal(dropPositionTarget, closestTerrain) * Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-        GameObject collectibleItem = ItemFactory.Instance.SpawnItem(item, closestTerrain.transform);
-        StartCoroutine(ParabolicDrop(collectibleItem, dropPositionTarget, dropRotationTarget, _dropDuration));
+        for (int i = 0; i < item.StackAmount; i++)
+        {
+            Vector3 dropPositionTarget = GetRandomDropPosition(closestTerrain);
+            Quaternion dropRotationTarget = TerrainUtil.GetRotationFromTerrainNormal(dropPositionTarget, closestTerrain) * Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+            GameObject collectibleItem = ItemFactory.Instance.SpawnItem(item, closestTerrain.transform);
+            StartCoroutine(ParabolicDrop(collectibleItem, dropPositionTarget, dropRotationTarget, _dropDuration));
+        }
     }
 
     private Vector3 GetRandomDropPosition(Terrain terrain)
