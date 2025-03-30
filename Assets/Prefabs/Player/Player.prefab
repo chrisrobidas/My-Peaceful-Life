@@ -1539,7 +1539,7 @@ MonoBehaviour:
     IsTrigger: 0
     Radius: 0.28
     Height: 1.8
-    Extent: 0.035
+    Extent: 0.028
     ColliderLayer: 3
     CollisionLayerMask:
       serializedVersion: 2
@@ -1609,6 +1609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dropPoint: {fileID: 6690358154056898879}
+  _dropDuration: 1
 --- !u!1 &6023837563783809587
 GameObject:
   m_ObjectHideFlags: 0

@@ -156,12 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c0632c7d21d314db5c36f6e5aaf542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _item:
-    Name: Wood
+  Item:
+    ItemData: {fileID: 11400000, guid: 8b224b7ead07b1f4e94f698c6cd5d0d3, type: 2}
     StackAmount: 1
-    MaxStackAmount: 5
-    Sprite: {fileID: 21300000, guid: ceafe6c4f41aa6f4b8357502f020ab73, type: 3}
-    Prefab: {fileID: 3662933705723376357}
 --- !u!65 &2588133113265724667
 BoxCollider:
   m_ObjectHideFlags: 0

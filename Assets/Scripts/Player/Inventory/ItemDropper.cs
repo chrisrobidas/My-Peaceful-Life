@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemDropper : MonoBehaviour
 {
     [SerializeField] private Transform _dropPoint;
+    [SerializeField] private float _dropDuration = 1.0f;
 
     public void DropItem(Item item)
     {
@@ -13,8 +14,8 @@ public class ItemDropper : MonoBehaviour
 
         Vector3 dropPositionTarget = GetRandomDropPosition(closestTerrain);
         Quaternion dropRotationTarget = TerrainUtil.GetRotationFromTerrainNormal(dropPositionTarget, closestTerrain) * Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-        GameObject collectibleItem = Instantiate(item.Prefab, closestTerrain.transform);
-        StartCoroutine(ParabolicDrop(collectibleItem, dropPositionTarget, dropRotationTarget, 2f));
+        GameObject collectibleItem = ItemFactory.Instance.SpawnItem(item, closestTerrain.transform);
+        StartCoroutine(ParabolicDrop(collectibleItem, dropPositionTarget, dropRotationTarget, _dropDuration));
     }
 
     private Vector3 GetRandomDropPosition(Terrain terrain)
@@ -58,7 +59,7 @@ public class ItemDropper : MonoBehaviour
     public Terrain GetClosestTerrain()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity))
         {
             Terrain terrain = hit.collider.GetComponent<Terrain>();
             if (terrain != null)

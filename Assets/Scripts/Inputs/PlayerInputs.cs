@@ -83,7 +83,10 @@ public class PlayerInputs : MonoBehaviour
     {
         if (context.started)
         {
-            OnInteract.Invoke();
+            if (OnInteract != null)
+            {
+                OnInteract.Invoke();
+            }
         }
     }
 

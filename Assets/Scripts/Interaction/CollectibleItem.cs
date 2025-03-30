@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class CollectibleItem : Interactable
 {
-    [SerializeField] private Item _item;
+    public Item Item;
 
     protected override void InteractAction()
     {
@@ -12,7 +10,7 @@ public class CollectibleItem : Interactable
     private void PickUp()
     {
         PlayersManager.Instance.GetLocalPlayerPlayerInputs().OnInteract -= Interact;
-        PlayersManager.Instance.GetLocalPlayerInventory().AddItem(_item);
-        Destroy(gameObject);
+        PlayersManager.Instance.GetLocalPlayerInventory().AddItem(Item);
+        ItemFactory.Instance.RecycleItem(Item, gameObject);
     }
 }

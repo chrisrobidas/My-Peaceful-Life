@@ -1,28 +1,28 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public class Item
 {
-    public const string DEFAULT_ITEM_NAME = "DefaultItem";
-
-    public string Name;
+    public ItemData ItemData;
     public int StackAmount;
-    public int MaxStackAmount = 1;
-    public Sprite Sprite;
-    public GameObject Prefab;
 
-    public Item()
+    private static Item _emptyItem;
+
+    public Item(ItemData itemData, int stackAmount = 1)
     {
-        Name = DEFAULT_ITEM_NAME;
+        ItemData = itemData;
+        StackAmount = stackAmount;
     }
 
-    public Item(string name, int stackAmount, int maxStackAmount, Sprite sprite, GameObject prefab)
+    public static Item EmptyItem
     {
-        Name = name;
-        StackAmount = stackAmount;
-        MaxStackAmount = maxStackAmount;
-        Sprite = sprite;
-        Prefab = prefab;
+        get
+        {
+            if (_emptyItem == null)
+            {
+                _emptyItem = new Item(ItemData.EmptyItemData);
+            }
+            return _emptyItem;
+        }
     }
 }
