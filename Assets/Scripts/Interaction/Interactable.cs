@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum InteractionAnimation
+{
+    PickUp,
+    Push,
+    Give
+}
+
 public abstract class Interactable : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)

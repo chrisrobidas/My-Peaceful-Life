@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using Fusion;
 using Fusion.Addons.KCC;
+using System.Collections;
 using UnityEngine;
 
 public class ThirdPersonController : NetworkBehaviour
@@ -54,6 +55,9 @@ public class ThirdPersonController : NetworkBehaviour
     // Jump
     private bool _canJump;
 
+    // Interaction
+    private bool _isInteracting;
+
     public override void Spawned()
     {
         KCC.Collider.tag = KCC.tag;
@@ -68,7 +72,10 @@ public class ThirdPersonController : NetworkBehaviour
             _isJumping = false;
         }
 
-        ProcessInput(PlayerInputs.CurrentGameplayInput);
+        if (!_isInteracting)
+        {
+            ProcessInput(PlayerInputs.CurrentGameplayInput);
+        }
     }
 
     public override void Render()
@@ -84,6 +91,21 @@ public class ThirdPersonController : NetworkBehaviour
     {
         _characterMaterialIndex = characterMaterialIndex;
         _skinnedMeshRenderer.material = PlayerPrefabMaterials[_characterMaterialIndex];
+    }
+
+    public void PlayInteractionAnimation(InteractionAnimation interactionAnimation, float duration)
+    {
+        if (_isInteracting) return;
+
+        _isInteracting = true;
+        Animator.SetTrigger(interactionAnimation.ToString());
+        StartCoroutine(InteractionCooldown(duration));
+    }
+
+    private IEnumerator InteractionCooldown(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _isInteracting = false;
     }
 
     public void SwapHeldTool(int toolID)
