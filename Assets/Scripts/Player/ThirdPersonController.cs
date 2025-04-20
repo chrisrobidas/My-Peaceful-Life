@@ -76,6 +76,10 @@ public class ThirdPersonController : NetworkBehaviour
         {
             ProcessInput(PlayerInputs.CurrentGameplayInput);
         }
+        else
+        {
+            KCC.SetInputDirection(Vector3.zero);
+        }
     }
 
     public override void Render()
