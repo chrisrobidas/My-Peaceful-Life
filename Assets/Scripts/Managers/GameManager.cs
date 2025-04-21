@@ -16,6 +16,7 @@ public enum GameStatus
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameStatus PreviousGameStatus { get; private set; }
     public GameStatus CurrentGameStatus { get; private set; }
 
     [Header("Start Game Setup")]
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameStatus == CurrentGameStatus) return;
 
+        PreviousGameStatus = CurrentGameStatus;
         CurrentGameStatus = gameStatus;
 
         if (OnChangeCurrentGameStatus != null)

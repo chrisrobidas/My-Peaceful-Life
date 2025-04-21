@@ -74,7 +74,7 @@ public class ThirdPersonController : NetworkBehaviour
 
         if (!_isInteracting)
         {
-            ProcessInput(PlayerInputs.CurrentGameplayInput);
+            ProcessInput();
         }
         else
         {
@@ -145,6 +145,16 @@ public class ThirdPersonController : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.OnChangeCurrentGameStatus += AdjustCameraForNewGameStatus;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnChangeCurrentGameStatus -= AdjustCameraForNewGameStatus;
+    }
+
     private void Awake()
     {
         AssignAnimationIDs();
@@ -171,14 +181,14 @@ public class ThirdPersonController : NetworkBehaviour
         if (HasStateAuthority == false)
             return;
 
-        CameraRotation(PlayerInputs.CurrentGameplayInput);
+        CameraRotation();
     }
 
-    private void ProcessInput(GameplayInput input)
+    private void ProcessInput()
     {
         if (KCC.Data.IsGrounded)
         {
-            if (input.IsJumping)
+            if (PlayerInputs.CurrentGameplayInput.IsJumping)
             {
                 if (_canJump)
                 {
@@ -195,11 +205,11 @@ public class ThirdPersonController : NetworkBehaviour
 
         // Calculate correct move direction from input (rotated based on camera look)
         Quaternion lookRotation = new Quaternion(0.0f, _mainCamera.transform.rotation.y, 0.0f, _mainCamera.transform.rotation.w);
-        Vector3 moveDirection = lookRotation * new Vector3(input.MoveDirection.x, 0f, input.MoveDirection.y);
+        Vector3 moveDirection = lookRotation * new Vector3(PlayerInputs.CurrentGameplayInput.MoveDirection.x, 0f, PlayerInputs.CurrentGameplayInput.MoveDirection.y);
         KCC.SetInputDirection(moveDirection);
 
         // Applies the sprint modifier
-        KCC.SetIsSprinting(input.IsSprinting);
+        KCC.SetIsSprinting(PlayerInputs.CurrentGameplayInput.IsSprinting);
 
         // Rotate the character towards move direction over time
         if (moveDirection != Vector3.zero)
@@ -211,24 +221,51 @@ public class ThirdPersonController : NetworkBehaviour
         }
     }
 
-    private void CameraRotation(GameplayInput input)
+    private void CameraRotation()
     {
         // If there is an input and camera position is not fixed
-        if (input.LookRotation.sqrMagnitude >= Threshold)
+        if (PlayerInputs.CurrentGameplayInput.LookRotation.sqrMagnitude >= Threshold)
         {
             // Don't multiply mouse input by Time.deltaTime;
             float deltaTimeMultiplier = PlayerInputs.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            _cinemachineTargetYaw += input.LookRotation.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += input.LookRotation.y * deltaTimeMultiplier;
+            _cinemachineTargetYaw += PlayerInputs.CurrentGameplayInput.LookRotation.x * deltaTimeMultiplier;
+            _cinemachineTargetPitch += PlayerInputs.CurrentGameplayInput.LookRotation.y * deltaTimeMultiplier;
         }
 
         // Clamp our rotations so our values are limited 360 degrees
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
         _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
         // Cinemachine will follow this target
         CameraPivot.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch, _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void AdjustCameraForNewGameStatus()
+    {
+        if (GameManager.Instance.CurrentGameStatus == GameStatus.Inventory)
+        {
+            AdjustCameraForInventory();
+        }
+        else if (GameManager.Instance.PreviousGameStatus == GameStatus.Inventory && GameManager.Instance.CurrentGameStatus == GameStatus.Playing)
+        {
+            AdjustCameraForGameplay();
+        }
+    }
+
+    private void AdjustCameraForInventory()
+    {
+        _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = new Vector3(-6, 0, 0);
+        _cinemachineTargetPitch = 0;
+        // TODO: ADD LERP!!!
+        _cinemachineTargetYaw = transform.rotation.eulerAngles.y + 180;
+    }
+
+    private void AdjustCameraForGameplay()
+    {
+        _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = new Vector3(0, 0, 0);
+        _cinemachineTargetPitch = 0;
+        // TODO: ADD LERP!!!
+        _cinemachineTargetYaw = transform.rotation.eulerAngles.y;
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
