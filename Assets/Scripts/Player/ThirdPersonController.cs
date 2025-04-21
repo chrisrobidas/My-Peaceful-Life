@@ -14,6 +14,7 @@ public class ThirdPersonController : NetworkBehaviour
     [SerializeField] private GameObject ToolSocket;
 
     [Header("Camera Setup")]
+    [SerializeField] private float AdjustCameraSpeed = 0.5f;
     [SerializeField] private float TopClamp = 70.0f;
     [SerializeField] private float BottomClamp = -30.0f;
 
@@ -44,6 +45,7 @@ public class ThirdPersonController : NetworkBehaviour
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
     private const float Threshold = 0.01f;
+    private Coroutine _adjustCameraCoroutine;
 
     // Animation IDs
     private int _animIDSpeed;
@@ -181,6 +183,11 @@ public class ThirdPersonController : NetworkBehaviour
         if (HasStateAuthority == false)
             return;
 
+        if (GameManager.Instance.CurrentGameStatus == GameStatus.Inventory)
+        {
+            KCC.SetLookRotation(0, _mainCamera.transform.rotation.eulerAngles.y + 180);
+        }
+
         CameraRotation();
     }
 
@@ -254,18 +261,50 @@ public class ThirdPersonController : NetworkBehaviour
 
     private void AdjustCameraForInventory()
     {
-        _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = new Vector3(-6, 0, 0);
-        _cinemachineTargetPitch = 0;
-        // TODO: ADD LERP!!!
-        _cinemachineTargetYaw = transform.rotation.eulerAngles.y + 180;
+        Vector3 targetOffset = new Vector3(-6, -0.5f, 0.75f);
+        float targetPitch = 0f;
+
+        StartAdjustCamera(targetOffset, targetPitch);
     }
 
     private void AdjustCameraForGameplay()
     {
-        _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = new Vector3(0, 0, 0);
-        _cinemachineTargetPitch = 0;
-        // TODO: ADD LERP!!!
-        _cinemachineTargetYaw = transform.rotation.eulerAngles.y;
+        Vector3 targetOffset = Vector3.zero;
+        float targetPitch = 0f;
+
+        StartAdjustCamera(targetOffset, targetPitch);
+    }
+
+    private void StartAdjustCamera(Vector3 targetShoulderOffset, float targetPitch)
+    {
+        if (_adjustCameraCoroutine != null)
+            StopCoroutine(_adjustCameraCoroutine);
+
+        _adjustCameraCoroutine = StartCoroutine(AdjustCamera(targetShoulderOffset, targetPitch));
+    }
+
+    private IEnumerator AdjustCamera(Vector3 targetShoulderOffset, float targetPitch)
+    {
+        var followComponent = _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        Vector3 startShoulderOffset = followComponent.ShoulderOffset;
+        float startYaw = _cinemachineTargetYaw;
+        float startPitch = _cinemachineTargetPitch;
+
+        float elapsed = 0f;
+
+        while (elapsed < AdjustCameraSpeed)
+        {
+            float t = elapsed / AdjustCameraSpeed;
+
+            followComponent.ShoulderOffset = Vector3.Lerp(startShoulderOffset, targetShoulderOffset, t);
+            _cinemachineTargetPitch = Mathf.Lerp(startPitch, targetPitch, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        followComponent.ShoulderOffset = targetShoulderOffset;
+        _cinemachineTargetPitch = targetPitch;
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

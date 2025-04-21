@@ -1251,6 +1251,7 @@ MonoBehaviour:
   Animator: {fileID: 8581939265784984019}
   CameraPivot: {fileID: 778128916860715101}
   ToolSocket: {fileID: 3885924345527084167}
+  AdjustCameraSpeed: 0.5
   TopClamp: 70
   BottomClamp: -30
   JumpImpulse: 6
