@@ -1,5 +1,5 @@
 {
-    "name": "StarterAssets",
+    "name": "Player",
     "maps": [
         {
             "name": "Player",
@@ -246,8 +246,8 @@
                 },
                 {
                     "name": "",
-                    "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "07f5c07f-5d39-41a7-b09e-6f72d0aa626f",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
