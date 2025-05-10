@@ -20,12 +20,22 @@ public struct ToolSelectionInput
 public class PlayerInputs : MonoBehaviour
 {
     public Action OnInteract;
+    public Action<ControlSchemeType> OnControlSchemeChanged;
+
     public GameplayInput CurrentGameplayInput => _gameplayInput;
     public ToolSelectionInput CurrentToolSelectionInput => _toolSelectionInput;
 
     private GameplayInput _gameplayInput;
     private ToolSelectionInput _toolSelectionInput;
     private PlayerInput _playerInput;
+    private string _lastControlScheme;
+
+    public enum ControlSchemeType
+    {
+        KeyboardMouse,
+        PlayStation,
+        Xbox
+    }
 
     public bool IsCurrentDeviceMouse
     {
@@ -149,6 +159,8 @@ public class PlayerInputs : MonoBehaviour
     private void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
+        _lastControlScheme = _playerInput.currentControlScheme;
+        NotifyControlSchemeChanged(_lastControlScheme);
     }
 
     private void OnEnable()
@@ -164,6 +176,11 @@ public class PlayerInputs : MonoBehaviour
     private void Update()
     {
         SetCursorLockMode();
+        if (_lastControlScheme != _playerInput.currentControlScheme)
+        {
+            _lastControlScheme = _playerInput.currentControlScheme;
+            NotifyControlSchemeChanged(_lastControlScheme);
+        }
     }
 
     private void SetCursorLockMode()
@@ -200,6 +217,26 @@ public class PlayerInputs : MonoBehaviour
             default:
                 _playerInput.SwitchCurrentActionMap(Constants.PLAYER_ACTION_MAP_NAME);
                 break;
+        }
+    }
+
+    private void NotifyControlSchemeChanged(string controlScheme)
+    {
+        if (controlScheme == "KeyboardMouse")
+        {
+            OnControlSchemeChanged?.Invoke(ControlSchemeType.KeyboardMouse);
+            return;
+        }
+
+        string gamepadName = Gamepad.current?.name.ToLower() ?? "";
+
+        if (gamepadName.Contains("dualshock") || gamepadName.Contains("dualsense"))
+        {
+            OnControlSchemeChanged?.Invoke(ControlSchemeType.PlayStation);
+        }
+        else
+        {
+            OnControlSchemeChanged?.Invoke(ControlSchemeType.Xbox);
         }
     }
 }

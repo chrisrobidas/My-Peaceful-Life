@@ -5573,6 +5573,7 @@ GameObject:
   - component: {fileID: 528871544}
   - component: {fileID: 528871546}
   - component: {fileID: 528871545}
+  - component: {fileID: 528871547}
   m_Layer: 5
   m_Name: InventoryControlImage
   m_TagString: Untagged
@@ -5637,6 +5638,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528871543}
   m_CullTransparentMesh: 1
+--- !u!114 &528871547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528871543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e2b5c6ad10d7408d83d188b292be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pcControlSprite: {fileID: 21300000, guid: 4a9aab4598a973a4bb58afc985bb95ec, type: 3}
+  _playstationControlSprite: {fileID: 21300000, guid: 68ed7962894f64f42a9cbe8a11e4f99f,
+    type: 3}
+  _xboxControlSprite: {fileID: 21300000, guid: ca5b2fc7a943c864fa81af8e03f2c72d, type: 3}
 --- !u!1 &533436631
 GameObject:
   m_ObjectHideFlags: 0
@@ -10409,6 +10426,7 @@ GameObject:
   - component: {fileID: 899266449}
   - component: {fileID: 899266451}
   - component: {fileID: 899266450}
+  - component: {fileID: 899266452}
   m_Layer: 5
   m_Name: SprintControlImage
   m_TagString: Untagged
@@ -10474,6 +10492,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899266448}
   m_CullTransparentMesh: 1
+--- !u!114 &899266452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899266448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e2b5c6ad10d7408d83d188b292be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pcControlSprite: {fileID: 21300000, guid: 4373767dc160efa40af1fc6cb37acd56, type: 3}
+  _playstationControlSprite: {fileID: 21300000, guid: 5d2ce3b2f95f4bd4f857a63e2f264d89,
+    type: 3}
+  _xboxControlSprite: {fileID: 21300000, guid: a699f5d684efed148ac746be6508220a, type: 3}
 --- !u!1 &907670965
 GameObject:
   m_ObjectHideFlags: 0
@@ -11767,6 +11801,7 @@ GameObject:
   - component: {fileID: 992891416}
   - component: {fileID: 992891418}
   - component: {fileID: 992891417}
+  - component: {fileID: 992891419}
   m_Layer: 5
   m_Name: PauseControlImage
   m_TagString: Untagged
@@ -11831,6 +11866,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992891415}
   m_CullTransparentMesh: 1
+--- !u!114 &992891419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992891415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e2b5c6ad10d7408d83d188b292be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pcControlSprite: {fileID: 21300000, guid: 06f26b26ca6231847b763cc14c7a1652, type: 3}
+  _playstationControlSprite: {fileID: 21300000, guid: dd2190d6a817d8f4c877b6f4b5ea755d,
+    type: 3}
+  _xboxControlSprite: {fileID: 21300000, guid: 9ecc5056f7a694f4caca1f1994e7b241, type: 3}
 --- !u!1 &996338490
 GameObject:
   m_ObjectHideFlags: 0
@@ -18709,6 +18760,7 @@ GameObject:
   - component: {fileID: 1561924503}
   - component: {fileID: 1561924505}
   - component: {fileID: 1561924504}
+  - component: {fileID: 1561924506}
   m_Layer: 5
   m_Name: SelectedToolControlImage
   m_TagString: Untagged
@@ -18773,6 +18825,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561924502}
   m_CullTransparentMesh: 1
+--- !u!114 &1561924506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561924502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e2b5c6ad10d7408d83d188b292be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pcControlSprite: {fileID: 21300000, guid: 52182d5e8536f3b4ea9fdd9373b737f3, type: 3}
+  _playstationControlSprite: {fileID: 21300000, guid: ec0e482ed6e7fad4b82147a4de7a8bde,
+    type: 3}
+  _xboxControlSprite: {fileID: 21300000, guid: 82d146df1cbd3d04dacc409df95d3484, type: 3}
 --- !u!1 &1572948398
 GameObject:
   m_ObjectHideFlags: 0
@@ -23466,6 +23534,7 @@ GameObject:
   - component: {fileID: 2022547676}
   - component: {fileID: 2022547678}
   - component: {fileID: 2022547677}
+  - component: {fileID: 2022547679}
   m_Layer: 5
   m_Name: JumpControlImage
   m_TagString: Untagged
@@ -23531,6 +23600,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022547675}
   m_CullTransparentMesh: 1
+--- !u!114 &2022547679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022547675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e2b5c6ad10d7408d83d188b292be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pcControlSprite: {fileID: 21300000, guid: 0d43f747bd8a53e46b9f4ff8d5ae4cf6, type: 3}
+  _playstationControlSprite: {fileID: 21300000, guid: 6d03624ffc979894881fb87f233bb8e3,
+    type: 3}
+  _xboxControlSprite: {fileID: 21300000, guid: 860acb2d85e67be418ac679668d2b42e, type: 3}
 --- !u!1 &2040644603
 GameObject:
   m_ObjectHideFlags: 0
