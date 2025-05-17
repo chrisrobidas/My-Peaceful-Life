@@ -9,6 +9,13 @@ public enum InteractionAnimation
 
 public abstract class Interactable : MonoBehaviour
 {
+    [SerializeField] private GameObject _interactableControlUI;
+
+    private void Start()
+    {
+        _interactableControlUI.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.PLAYER_LAYER))
@@ -17,6 +24,7 @@ public abstract class Interactable : MonoBehaviour
             if (localPlayerPlayerInputs != null && localPlayerPlayerInputs.OnInteract == null)
             {
                 PlayersManager.Instance.GetLocalPlayerPlayerInputs().OnInteract += Interact;
+                _interactableControlUI.SetActive(true);
             }
         }
     }
@@ -29,6 +37,7 @@ public abstract class Interactable : MonoBehaviour
             if (localPlayerPlayerInputs != null && localPlayerPlayerInputs.OnInteract != null)
             {
                 PlayersManager.Instance.GetLocalPlayerPlayerInputs().OnInteract -= Interact;
+                _interactableControlUI.SetActive(false);
             }
         }
     }

@@ -24,7 +24,7 @@ public class PlayersManager : MonoBehaviour
     {
         if (_localPlayerInventory == null)
         {
-            _localPlayerInventory = GetLocalPlayer().GetComponent<Inventory>();
+            _localPlayerInventory = GetLocalPlayer()?.GetComponent<Inventory>();
         }
 
         return _localPlayerInventory;
@@ -34,7 +34,7 @@ public class PlayersManager : MonoBehaviour
     {
         if (_localPlayerItemDropper == null)
         {
-            _localPlayerItemDropper = GetLocalPlayer().GetComponent<ItemDropper>();
+            _localPlayerItemDropper = GetLocalPlayer()?.GetComponent<ItemDropper>();
         }
 
         return _localPlayerItemDropper;
@@ -44,7 +44,7 @@ public class PlayersManager : MonoBehaviour
     {
         if (_localPlayerPlayerInputs == null)
         {
-            _localPlayerPlayerInputs = GetLocalPlayer().GetComponent<PlayerInputs>();
+            _localPlayerPlayerInputs = GetLocalPlayer()?.GetComponent<PlayerInputs>();
         }
 
         return _localPlayerPlayerInputs;
@@ -54,7 +54,7 @@ public class PlayersManager : MonoBehaviour
     {
         if (_localPlayerThirdPersonController == null)
         {
-            _localPlayerThirdPersonController = GetLocalPlayer().GetComponent<ThirdPersonController>();
+            _localPlayerThirdPersonController = GetLocalPlayer()?.GetComponent<ThirdPersonController>();
         }
 
         return _localPlayerThirdPersonController;
