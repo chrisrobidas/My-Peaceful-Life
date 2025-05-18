@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class ThirdPersonController : NetworkBehaviour
 {
+    // Interaction
+    [HideInInspector] public bool IsInteracting;
+
     [Header("References")]
     [SerializeField] private KCC KCC;
     [SerializeField] private PlayerInputs PlayerInputs;
@@ -57,9 +60,6 @@ public class ThirdPersonController : NetworkBehaviour
     // Jump
     private bool _canJump;
 
-    // Interaction
-    private bool _isInteracting;
-
     public override void Spawned()
     {
         KCC.Collider.tag = KCC.tag;
@@ -74,7 +74,7 @@ public class ThirdPersonController : NetworkBehaviour
             _isJumping = false;
         }
 
-        if (!_isInteracting)
+        if (!IsInteracting)
         {
             ProcessInput();
         }
@@ -101,9 +101,9 @@ public class ThirdPersonController : NetworkBehaviour
 
     public void PlayInteractionAnimation(InteractionAnimation interactionAnimation, float duration)
     {
-        if (_isInteracting) return;
+        if (IsInteracting) return;
 
-        _isInteracting = true;
+        IsInteracting = true;
         Animator.SetTrigger(interactionAnimation.ToString());
         StartCoroutine(InteractionCooldown(duration));
     }
@@ -111,7 +111,7 @@ public class ThirdPersonController : NetworkBehaviour
     private IEnumerator InteractionCooldown(float duration)
     {
         yield return new WaitForSeconds(duration);
-        _isInteracting = false;
+        IsInteracting = false;
     }
 
     public void SwapHeldTool(int toolID)
@@ -326,7 +326,6 @@ public class ThirdPersonController : NetworkBehaviour
     // Animation event
     private void OnFootstep(AnimationEvent animationEvent)
     {
-        // TODO: CHECK IF FOOTSTEP SOUND IS FIXED?? PROBABLY SINCE I FIXED JUMP ANIMATION?
         if (animationEvent.animatorClipInfo.weight < 0.5f)
             return;
 
