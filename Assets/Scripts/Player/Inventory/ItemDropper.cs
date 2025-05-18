@@ -62,13 +62,9 @@ public class ItemDropper : MonoBehaviour
     public Terrain GetClosestTerrain()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask(Constants.TERRAIN_LAYER)))
         {
-            Terrain terrain = hit.collider.GetComponent<Terrain>();
-            if (terrain != null)
-            {
-                return terrain;
-            }
+            return hit.collider.GetComponent<Terrain>();
         }
         return null;
     }

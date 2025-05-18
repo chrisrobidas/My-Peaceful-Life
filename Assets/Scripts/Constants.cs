@@ -8,6 +8,7 @@ public static class Constants
 
     // Layers
     public const string PLAYER_LAYER = "Player";
+    public const string TERRAIN_LAYER = "Terrain";
 
     // Player
     public const string PLAYER_FOLLOW_CAMERA = "PlayerFollowCamera";
