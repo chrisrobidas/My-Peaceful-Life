@@ -34,10 +34,12 @@ public class ControlImage : MonoBehaviour
 
     private IEnumerator WaitForLocalPlayerPlayerInputs()
     {
-        while (PlayersManager.Instance == null || PlayersManager.Instance.GetLocalPlayer() == null)
+        while (PlayersManager.Instance?.GetLocalPlayer() == null)
             yield return null;
 
-        PlayersManager.Instance.GetLocalPlayerPlayerInputs().OnControlSchemeChanged += UpdateControlImage;
+        PlayerInputs localPlayerPlayerInputs = PlayersManager.Instance.GetLocalPlayerPlayerInputs();
+        localPlayerPlayerInputs.OnControlSchemeChanged += UpdateControlImage;
+        UpdateControlImage(localPlayerPlayerInputs.LastControlSchemeType);
     }
 
     private void UpdateControlImage(ControlSchemeType scheme)

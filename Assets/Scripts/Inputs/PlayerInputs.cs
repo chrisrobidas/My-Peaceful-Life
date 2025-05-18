@@ -21,6 +21,7 @@ public class PlayerInputs : MonoBehaviour
 {
     public Action OnInteract;
     public Action<ControlSchemeType> OnControlSchemeChanged;
+    public ControlSchemeType LastControlSchemeType;
 
     public GameplayInput CurrentGameplayInput => _gameplayInput;
     public ToolSelectionInput CurrentToolSelectionInput => _toolSelectionInput;
@@ -225,6 +226,7 @@ public class PlayerInputs : MonoBehaviour
         if (controlScheme == "KeyboardMouse")
         {
             OnControlSchemeChanged?.Invoke(ControlSchemeType.KeyboardMouse);
+            LastControlSchemeType = ControlSchemeType.KeyboardMouse;
             return;
         }
 
@@ -233,10 +235,12 @@ public class PlayerInputs : MonoBehaviour
         if (gamepadName.Contains("dualshock") || gamepadName.Contains("dualsense"))
         {
             OnControlSchemeChanged?.Invoke(ControlSchemeType.PlayStation);
+            LastControlSchemeType = ControlSchemeType.PlayStation;
         }
         else
         {
             OnControlSchemeChanged?.Invoke(ControlSchemeType.Xbox);
+            LastControlSchemeType = ControlSchemeType.Xbox;
         }
     }
 }
