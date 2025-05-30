@@ -46,6 +46,7 @@ public class ItemFactory : NetworkBehaviour
             // Instantiate a new one if pool is empty
             Debug.Log("Instantiate a new item " + item.ItemData + " because pool is empty.");
             itemInstance = Runner.Spawn(item.ItemData.Prefab, position, rotation);
+            itemInstance.transform.SetParent(parentTerrainTransform);
         }
 
         return itemInstance;
