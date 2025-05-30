@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class ItemDropper : MonoBehaviour
         {
             Vector3 dropPositionTarget = GetRandomDropPosition(closestTerrain);
             Quaternion dropRotationTarget = TerrainUtil.GetRotationFromTerrainNormal(dropPositionTarget, closestTerrain) * Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-            GameObject collectibleItem = ItemFactory.Instance.SpawnItem(item, closestTerrain.transform);
+            NetworkObject collectibleItem = ItemFactory.Instance.SpawnItem(item, closestTerrain.transform);
             StartCoroutine(ParabolicDrop(collectibleItem, dropPositionTarget, dropRotationTarget, _dropDuration));
         }
     }
@@ -32,7 +33,7 @@ public class ItemDropper : MonoBehaviour
         return new Vector3(x, y, z);
     }
 
-    private IEnumerator ParabolicDrop(GameObject collectibleItem, Vector3 positionTarget, Quaternion rotationTarget, float duration)
+    private IEnumerator ParabolicDrop(NetworkObject collectibleItem, Vector3 positionTarget, Quaternion rotationTarget, float duration)
     {
         Vector3 start = _dropPoint.position;
         Quaternion startRotation = collectibleItem.transform.rotation;

@@ -3642,6 +3642,7 @@ GameObject:
   - component: {fileID: 349314057}
   - component: {fileID: 349314056}
   - component: {fileID: 349314059}
+  - component: {fileID: 349314060}
   m_Layer: 8
   m_Name: HorizonTerrain
   m_TagString: Untagged
@@ -3738,6 +3739,24 @@ MonoBehaviour:
   _collectibleItem: {fileID: 444240363129947811, guid: 5be1c9112b2959b4c9ef14320c4edca7,
     type: 3}
   _itemCount: 600
+--- !u!114 &349314060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349314055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2520092605
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 349314059}
 --- !u!1 &365437910
 GameObject:
   m_ObjectHideFlags: 0
@@ -23487,6 +23506,7 @@ GameObject:
   - component: {fileID: 1909415315}
   - component: {fileID: 1909415314}
   - component: {fileID: 1909415316}
+  - component: {fileID: 1909415317}
   m_Layer: 8
   m_Name: MainTerrain
   m_TagString: Untagged
@@ -23583,6 +23603,24 @@ MonoBehaviour:
   _collectibleItem: {fileID: 444240363129947811, guid: 5be1c9112b2959b4c9ef14320c4edca7,
     type: 3}
   _itemCount: 600
+--- !u!114 &1909415317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909415312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 503006869
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1909415316}
 --- !u!1 &1911192918
 GameObject:
   m_ObjectHideFlags: 0
@@ -25829,6 +25867,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -275531104876993800, guid: 3a23ea3f37adc49469b2ed2a9ad9dc2b,
+        type: 3}
+      propertyPath: SortKey
+      value: 1598071281
+      objectReference: {fileID: 0}
     - target: {fileID: 1784362808025922116, guid: 3a23ea3f37adc49469b2ed2a9ad9dc2b,
         type: 3}
       propertyPath: m_Name

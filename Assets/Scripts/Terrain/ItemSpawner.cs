@@ -1,17 +1,21 @@
+using Fusion;
 using UnityEngine;
 
 [RequireComponent(typeof(Terrain))]
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawner : NetworkBehaviour
 {
     [SerializeField] private CollectibleItem _collectibleItem;
     [SerializeField] private int _itemCount;
 
     private Terrain _terrain;
 
-    private void Start()
+    public override void Spawned()
     {
-        _terrain = GetComponent<Terrain>();
-        SpawnItems();
+        if (HasStateAuthority)
+        {
+            _terrain = GetComponent<Terrain>();
+            SpawnItems();
+        }
     }
 
     private void SpawnItems()

@@ -1,11 +1,12 @@
+using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemFactory : MonoBehaviour
+public class ItemFactory : NetworkBehaviour
 {
     public static ItemFactory Instance { get; private set; }
 
-    private Dictionary<ItemData, Queue<GameObject>> _itemPool = new Dictionary<ItemData, Queue<GameObject>>();
+    private Dictionary<ItemData, Queue<NetworkObject>> _itemPool = new Dictionary<ItemData, Queue<NetworkObject>>();
 
     private void Awake()
     {
@@ -18,17 +19,17 @@ public class ItemFactory : MonoBehaviour
         Instance = this;
     }
 
-    public GameObject SpawnItem(Item item, Transform parentTerrainTransform)
+    public NetworkObject SpawnItem(Item item, Transform parentTerrainTransform)
     {
         return SpawnItem(item, Vector3.zero, Quaternion.identity, parentTerrainTransform);
     }
 
-    public GameObject SpawnItem(Item item, Vector3 position, Quaternion rotation, Transform parentTerrainTransform)
+    public NetworkObject SpawnItem(Item item, Vector3 position, Quaternion rotation, Transform parentTerrainTransform)
     {
         if (!_itemPool.ContainsKey(item.ItemData))
-            _itemPool[item.ItemData] = new Queue<GameObject>();
+            _itemPool[item.ItemData] = new Queue<NetworkObject>();
 
-        GameObject itemInstance;
+        NetworkObject itemInstance;
 
         // Reuse from pool if available
         if (_itemPool[item.ItemData].Count > 0)
@@ -38,21 +39,21 @@ public class ItemFactory : MonoBehaviour
             itemInstance.transform.SetParent(parentTerrainTransform);
             itemInstance.transform.position = position;
             itemInstance.transform.rotation = rotation;
-            itemInstance.SetActive(true);
+            itemInstance.gameObject.SetActive(true);
         }
         else
         {
             // Instantiate a new one if pool is empty
             Debug.Log("Instantiate a new item " + item.ItemData + " because pool is empty.");
-            itemInstance = Instantiate(item.ItemData.Prefab, position, rotation, parentTerrainTransform);
+            itemInstance = Runner.Spawn(item.ItemData.Prefab, position, rotation);
         }
 
         return itemInstance;
     }
 
-    public void RecycleItem(Item item, GameObject itemInstance)
+    public void RecycleItem(Item item, NetworkObject itemInstance)
     {
-        itemInstance.SetActive(false);
+        itemInstance.gameObject.SetActive(false);
         _itemPool[item.ItemData].Enqueue(itemInstance);
     }
 }
