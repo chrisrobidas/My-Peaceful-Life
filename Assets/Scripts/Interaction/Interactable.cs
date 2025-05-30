@@ -23,7 +23,7 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Constants.PLAYER_LAYER))
+        if (PlayersManager.Instance.IsLocalPlayer(other))
         {
             _playerTransform = other.transform;
             _interactablesInRange.Add(this);
@@ -33,7 +33,7 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag(Constants.PLAYER_LAYER))
+        if (PlayersManager.Instance.IsLocalPlayer(other))
         {
             RemoveFromInteractables();
             UpdateCurrentInteractable();

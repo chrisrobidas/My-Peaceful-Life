@@ -20,6 +20,11 @@ public class PlayersManager : MonoBehaviour
         return _localPlayer;
     }
 
+    public bool IsLocalPlayer(Collider other)
+    {
+        return other.CompareTag(Constants.PLAYER_LAYER) && other.transform.parent?.gameObject == GetLocalPlayer();
+    }
+
     public Inventory GetLocalPlayerInventory()
     {
         if (_localPlayerInventory == null)
