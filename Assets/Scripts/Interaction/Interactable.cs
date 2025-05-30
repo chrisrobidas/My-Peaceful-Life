@@ -12,9 +12,8 @@ public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] private GameObject _interactableControlUI;
 
-    private static List<Interactable> _interactablesInRange = new List<Interactable>();
+    private static HashSet<Interactable> _interactablesInRange = new HashSet<Interactable>();
     private static Interactable _currentlyInteractable;
-
     private static Transform _playerTransform;
 
     private void Start()
@@ -27,10 +26,7 @@ public abstract class Interactable : MonoBehaviour
         if (other.CompareTag(Constants.PLAYER_LAYER))
         {
             _playerTransform = other.transform;
-
-            if (!_interactablesInRange.Contains(this))
-                _interactablesInRange.Add(this);
-
+            _interactablesInRange.Add(this);
             UpdateCurrentInteractable();
         }
     }
@@ -39,28 +35,25 @@ public abstract class Interactable : MonoBehaviour
     {
         if (other.CompareTag(Constants.PLAYER_LAYER))
         {
-            if (_interactablesInRange.Contains(this))
-                _interactablesInRange.Remove(this);
-
-            if (_currentlyInteractable == this)
-                RemoveInteractCallback();
-
+            RemoveFromInteractables();
             UpdateCurrentInteractable();
         }
     }
 
     private void OnDisable()
     {
-        if (_interactablesInRange.Contains(this))
-            _interactablesInRange.Remove(this);
-
-        if (_currentlyInteractable == this)
-            RemoveInteractCallback();
-
+        RemoveFromInteractables();
         UpdateCurrentInteractable();
     }
 
-    private static void UpdateCurrentInteractable()
+    private void RemoveFromInteractables()
+    {
+        _interactablesInRange.Remove(this);
+        if (_currentlyInteractable == this)
+            RemoveInteractCallback();
+    }
+
+    private void UpdateCurrentInteractable()
     {
         if (_playerTransform == null || _interactablesInRange.Count == 0)
         {
@@ -85,6 +78,7 @@ public abstract class Interactable : MonoBehaviour
             }
         }
 
+        // Make the closest interactable the only one that can be interacted with
         if (_currentlyInteractable != closest)
         {
             if (_currentlyInteractable != null)
