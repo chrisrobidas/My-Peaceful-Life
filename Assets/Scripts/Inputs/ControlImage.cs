@@ -23,15 +23,6 @@ public class ControlImage : MonoBehaviour
         StartCoroutine(WaitForLocalPlayerPlayerInputs());
     }
 
-    private void OnDisable()
-    {
-        PlayerInputs playerInputs = PlayersManager.Instance?.GetLocalPlayerPlayerInputs();
-        if (playerInputs != null && playerInputs.OnControlSchemeChanged != null)
-        {
-            playerInputs.OnControlSchemeChanged -= UpdateControlImage;
-        }
-    }
-
     private IEnumerator WaitForLocalPlayerPlayerInputs()
     {
         while (PlayersManager.Instance?.GetLocalPlayer() == null)
