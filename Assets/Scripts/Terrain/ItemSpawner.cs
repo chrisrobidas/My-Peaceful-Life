@@ -24,7 +24,8 @@ public class ItemSpawner : NetworkBehaviour
         {
             Vector3 spawnPosition = TerrainUtil.GetRandomPositionOnTerrain(_terrain);
             Quaternion spawnRotation = TerrainUtil.GetRotationFromTerrainNormal(spawnPosition, _terrain) * Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-            ItemFactory.Instance.SpawnItem(_collectibleItem.Item, spawnPosition, spawnRotation, gameObject.transform);
+            NetworkObject spawnedItem = Runner.Spawn(_collectibleItem.Item.ItemData.Prefab, spawnPosition, spawnRotation);
+            spawnedItem.transform.SetParent(gameObject.transform);
         }
     }
 }

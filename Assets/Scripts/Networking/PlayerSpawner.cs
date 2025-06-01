@@ -26,9 +26,11 @@ public class PlayerSpawner : NetworkBehaviour, IStateAuthorityChanged
         ThirdPersonController thirdPersonController = player.gameObject.GetComponent<ThirdPersonController>();
         thirdPersonController.SetCharacterMaterialIndex(_spawnCount % thirdPersonController.PlayerPrefabMaterials.Length);
 
-        IncrementSpawnCount();
-
-        if (!HasStateAuthority)
+        if (HasStateAuthority)
+        {
+            IncrementSpawnCount();
+        }
+        else
         {
             Object.RequestStateAuthority();
         }

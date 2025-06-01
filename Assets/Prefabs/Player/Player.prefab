@@ -1246,6 +1246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInteracting: 0
   KCC: {fileID: 7239307590498069409}
   PlayerInputs: {fileID: 2913878245325084537}
   Animator: {fileID: 8581939265784984019}
@@ -1586,6 +1587,7 @@ MonoBehaviour:
   - {fileID: 2330285730715919094}
   - {fileID: 747923834008969711}
   - {fileID: 7239307590498069409}
+  - {fileID: 676801008838864228}
 --- !u!114 &3605732037120384787
 MonoBehaviour:
   m_ObjectHideFlags: 0
