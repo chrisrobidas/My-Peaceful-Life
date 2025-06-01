@@ -104,8 +104,14 @@ public class ThirdPersonController : NetworkBehaviour
         if (IsInteracting) return;
 
         IsInteracting = true;
-        Animator.SetTrigger(interactionAnimation.ToString());
+        RPC_PlayInteractionAnimation(interactionAnimation);
         StartCoroutine(InteractionCooldown(duration));
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_PlayInteractionAnimation(InteractionAnimation interactionAnimation)
+    {
+        Animator.SetTrigger(interactionAnimation.ToString());
     }
 
     private IEnumerator InteractionCooldown(float duration)
