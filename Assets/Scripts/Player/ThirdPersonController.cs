@@ -134,33 +134,18 @@ public class ThirdPersonController : NetworkBehaviour
     public void RPC_SwapHeldTool()
     {
         DisplayHeldTool();
-
-        // Play some animation and particle effect..
-    }
-
-    private void DisplayHeldTool()
-    {
-        for (int i = 0; i < ToolSocket.transform.childCount; i++)
-        {
-            if (i == _heldToolID)
-            {
-                ToolSocket.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else
-            {
-                ToolSocket.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
     }
 
     private void OnEnable()
     {
         GameManager.Instance.OnChangeCurrentGameStatus += AdjustCameraForNewGameStatus;
+        PlayerInputs.OnUseTool += UseTool;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnChangeCurrentGameStatus -= AdjustCameraForNewGameStatus;
+        PlayerInputs.OnUseTool -= UseTool;
     }
 
     private void Awake()
@@ -195,6 +180,35 @@ public class ThirdPersonController : NetworkBehaviour
         }
 
         CameraRotation();
+    }
+
+    private void DisplayHeldTool()
+    {
+        for (int i = 0; i < ToolSocket.transform.childCount; i++)
+        {
+            if (i == _heldToolID)
+            {
+                ToolSocket.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                ToolSocket.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void UseTool()
+    {
+        if (_heldToolID <= 0 || _heldToolID >= ToolSocket.transform.childCount)
+            return;
+
+        var toolObject = ToolSocket.transform.GetChild(_heldToolID);
+        var action = toolObject.GetComponent<ToolAction>();
+
+        if (action != null)
+        {
+            action.Use();
+        }
     }
 
     private void ProcessInput()

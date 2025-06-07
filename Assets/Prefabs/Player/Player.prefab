@@ -1494,6 +1494,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ed631ae3-0cab-468a-9c26-fad2a38111ee
     m_ActionName: InventoryMenu/HideInventoryMenu[/Keyboard/escape,/Keyboard/i]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2913878245325084537}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: OnUseToolInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ecd612d4-e340-4732-9992-396f00f8e918
+    m_ActionName: Player/UseTool[/Mouse/rightButton,/DualSenseGamepadHID/buttonWest]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: Player
@@ -3058,7 +3074,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8234146512507840093, guid: eb3fa0c9027882b4084517c1a3342a1f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 742564582724046068}
   m_SourcePrefab: {fileID: 100100000, guid: eb3fa0c9027882b4084517c1a3342a1f, type: 3}
 --- !u!4 &2590316452831470368 stripped
 Transform:
@@ -3066,6 +3086,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6556369256716689351}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2934508274574096794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8234146512507840093, guid: eb3fa0c9027882b4084517c1a3342a1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6556369256716689351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &742564582724046068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934508274574096794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1eff642bfee7e14a9139bb668da5780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6951220772800235712
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public struct ToolSelectionInput
 public class PlayerInputs : MonoBehaviour
 {
     public Action OnInteract;
+    public Action OnUseTool;
     public Action<ControlSchemeType> OnControlSchemeChanged;
     public ControlSchemeType LastControlSchemeType;
 
@@ -94,10 +95,7 @@ public class PlayerInputs : MonoBehaviour
     {
         if (context.started)
         {
-            if (OnInteract != null)
-            {
-                OnInteract.Invoke();
-            }
+            OnInteract?.Invoke();
         }
     }
 
@@ -122,6 +120,14 @@ public class PlayerInputs : MonoBehaviour
         if (context.started)
         {
             UIManager.Instance.CallOpenToolsWheel();
+        }
+    }
+
+    public void OnUseToolInput(CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnUseTool?.Invoke();
         }
     }
 
